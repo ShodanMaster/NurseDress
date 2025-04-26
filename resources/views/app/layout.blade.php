@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>AdminLTE 3 | Dashboard 3</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -13,7 +14,14 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('adminasset/dist/css/adminlte.min.css')}}">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="{{asset('adminasset\plugins\sweetalert2\sweetalert2.css')}}">
+  <link rel="stylesheet" href="{{asset('adminasset\plugins\sweetalert2\sweetalert2.min.css')}}">
+  {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> --}}
+
+  <link rel="stylesheet" href="{{ asset('adminassetplugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('adminassetplugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('adminassetplugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 </head>
 <!--
 `body` tag options:
@@ -177,11 +185,11 @@
      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          
-          
+
+
           <li class="nav-item">
             <a href="#" class="nav-link">
-              
+
               <p>
                 Masters
                 <i class="fas fa-angle-left right"></i>
@@ -751,7 +759,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <div class=".container mt-5">
-      
+
       @yield('content')
     </div>
 {{-- <img src="{{asset('adminasset/test.jpg')}}" alt="test image"> --}}
@@ -778,6 +786,14 @@
 
 <!-- jQuery -->
 <script src="{{asset('adminasset/plugins/jquery/jquery.min.js')}}"></script>
+
+<script src="{{ asset('adminasset/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('adminasset/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('adminasset/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('adminasset/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('adminasset/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('adminasset/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+
 <!-- Bootstrap -->
 <script src="{{asset('adminasset/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE -->
@@ -785,10 +801,24 @@
 
 <!-- OPTIONAL SCRIPTS -->
 <script src="{{asset('adminasset/plugins/chart.js/Chart.min.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
+{{-- <!-- AdminLTE for demo purposes -->
 <script src="{{asset('adminasset/dist/js/demo.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{asset('adminasset/dist/js/pages/dashboard3.js')}}"></script>
+<script src="{{asset('adminasset/dist/js/pages/dashboard3.js')}}"></script> --}}
+
+<script src="{{asset('adminasset\plugins\sweetalert2\sweetalert2.all.js')}}"></script>
+<script src="{{asset('adminasset\plugins\sweetalert2\sweetalert2.all.min.js')}}"></script>
+<script src="{{asset('adminasset\plugins\sweetalert2\sweetalert2.js')}}"></script>
+<script src="{{asset('adminasset\plugins\sweetalert2\sweetalert2.min.js')}}"></script>
+
+
+<script>
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+</script>
 @yield('script')
 </body>
 </html>

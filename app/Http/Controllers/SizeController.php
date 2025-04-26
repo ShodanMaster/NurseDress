@@ -2,11 +2,116 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Size;
+use Exception;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class SizeController extends Controller
 {
     public function index(){
         return view('size');
+    }
+
+    public function getSizes(Request $request){
+        $sizes = Size::all();
+
+        if($request->ajax()){
+            return DataTables::of($sizes)
+            ->addIndexColumn()
+
+            ->addColumn('action', function ($row){
+                return '<a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id='. encrypt($row->id).' data-name="' . $row->name .'"  data-bs-toggle="modal" data-bs-target="#editSizeModal">Edit</a>
+                        <a href="javascript:void(0)" class="btn btn-danger btn-sm deleteButton" data-id="'. encrypt($row->id) .'" data-name="'. $row->name .'">Delete</a>
+                ';
+            })
+            ->make(true);
+        }
+    }
+
+    public function store(Request $request){
+        try{
+
+            $request->validate([
+                'size' => 'required'
+            ]);
+
+            Size::create([
+                'name' => $request->size
+            ]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Size Stored Successfully'
+            ], 200);
+
+        }catch (Exception $e) {
+            
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                $message = 'Duplicate entry found. Please ensure the data is unique.';
+            } else {
+                $message = 'Something Went Wrong. Please try again later.';
+            }
+
+            return response()->json([
+                'message' => $message,
+            ], 500);
+        }
+
+    }
+
+    public function update(Request $request){
+        // dd($request->all());
+        try{
+            $request->validate([
+                'size' => 'required'
+            ]);
+
+            Size::whereId(decrypt($request->id))->update([
+                'name' => $request->size
+            ]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Size Updated Successfully'
+            ], 200);
+
+        }catch (Exception $e) {
+            
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                $message = 'Duplicate entry found. Please ensure the data is unique.';
+            } else {
+                $message = 'Something Went Wrong. Please try again later.';
+            }
+
+            return response()->json([
+                'message' => $message,
+            ], 500);
+        }
+    }
+
+    public function delete(Request $request){
+        try{
+
+            $size = Size::find(decrypt($request->id));
+    
+            if($size){
+                $size->delete();
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Size Deleted Successfully!',
+                ], 200);
+            }else{
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'size Not Found!',
+                ], 404);
+            }
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 500,
+                'message' => 'Something Went Wrong '. $e->getMessage(),
+            ]);
+        }
     }
 }
