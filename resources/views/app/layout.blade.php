@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('adminasset/dist/css/adminlte.min.css')}}">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <!--
 `body` tag options:
@@ -188,7 +189,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="{{route('admin.size')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Size</p>
                 </a>
@@ -749,7 +750,10 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-@yield('content')
+    <div class=".container mt-5">
+      
+      @yield('content')
+    </div>
 {{-- <img src="{{asset('adminasset/test.jpg')}}" alt="test image"> --}}
 </div>
 <!-- /.content-wrapper -->
@@ -785,5 +789,6 @@
 <script src="{{asset('adminasset/dist/js/demo.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('adminasset/dist/js/pages/dashboard3.js')}}"></script>
+@yield('script')
 </body>
 </html>
