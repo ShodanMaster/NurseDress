@@ -203,9 +203,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                <a href="{{route('admin.color')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Design</p>
+                  <p>Color</p>
                 </a>
               </li>
               <li class="nav-item">

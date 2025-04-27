@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ColorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SizeController;
 
@@ -14,4 +15,10 @@ Route::prefix('admin')->name('admin.')->group(function(){
     ROute::post('store-size', [SizeController::class, 'store'])->name('storesize');
     ROute::post('update-size', [SizeController::class, 'update'])->name('updatesize');
     ROute::post('delete-size', [SizeController::class, 'delete'])->name('deletesize');
+
+    Route::get('color', [ColorController::class, 'index'])->name('color');
+    Route::get('get-colors', [ColorController::class, 'getColors'])->name('getcolors');
+    ROute::post('store-color', [ColorController::class, 'store'])->name('storecolor');
+    ROute::post('update-color', [ColorController::class, 'update'])->name('updatecolor');
+    ROute::post('delete-color', [ColorController::class, 'delete'])->name('deletecolor');
 });
