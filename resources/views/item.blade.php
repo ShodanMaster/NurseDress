@@ -12,6 +12,57 @@
         </div>
         <form id="itemForm">
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="size" class="form-label">Size: </label>
+                            <select class="form-control" required name="size" id="size">
+                                <option value="" disabled selected> --Select Size-- </option>
+                                @forelse ($sizes as $size)
+                                    <option value="{{$size->id}}">{{$size->name}}</option>
+                                @empty
+                                    <option value="" disabled>No Values Exist</option>
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="color" class="form-label">Color: </label>
+                            <select class="form-control" required name="color" id="color">
+                                <option value="" disabled selected> --Select Color-- </option>
+                                @forelse ($colors as $color)
+                                    <option value="{{$color->id}}">{{$color->name}}</option>
+                                @empty
+                                    <option value="" disabled>No Values Exist</option>
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="design" class="form-label">Design: </label>
+                            <select class="form-control" required name="design" id="design">
+                                <option value="" disabled selected> --Select Design-- </option>
+                                @forelse ($designs as $design)
+                                    <option value="{{$design->id}}">{{$design->name}}</option>
+                                @empty
+                                    <option value="" disabled>No Values Exist</option>
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="sex" class="form-label">Sex: </label>
+                        <select class="form-control" required name="sex" id="sex">
+                            <option value="" disabled selected> --Select Sex-- </option>
+                            <option value="male">Male</option>
+                            <option value="female">FeMale</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="item" class="form-label">Item</label>
                     <input type="text" class="form-control" name="item" id="item" placeholder="Enter Item" required>
@@ -37,6 +88,57 @@
         <form id="itemEditForm">
             <input type="hidden" name="id" id="edit-id">
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="size" class="form-label">Size: </label>
+                            <select class="form-control" required name="size" id="edit-size">
+                                <option value="" disabled selected> --Select Size-- </option>
+                                @forelse ($sizes as $size)
+                                    <option value="{{$size->id}}">{{$size->name}}</option>
+                                @empty
+                                    <option value="" disabled>No Sizes Exist</option>
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="color" class="form-label">Color: </label>
+                            <select class="form-control" required name="color" id="edit-color">
+                                <option value="" disabled selected> --Select Color-- </option>
+                                @forelse ($colors as $color)
+                                    <option value="{{$color->id}}">{{$color->name}}</option>
+                                @empty
+                                    <option value="" disabled>No Colors Exist</option>
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="design" class="form-label">Design: </label>
+                            <select class="form-control" required name="design" id="edit-design">
+                                <option value="" disabled selected> --Select Design-- </option>
+                                @forelse ($designs as $design)
+                                    <option value="{{$design->id}}">{{$design->name}}</option>
+                                @empty
+                                    <option value="" disabled>No Designs Exist</option>
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="sex" class="form-label">Sex: </label>
+                        <select class="form-control" required name="sex" id="edit-sex">
+                            <option value="" disabled selected> --Select Sex-- </option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="item" class="form-label">Item</label>
                     <input type="text" class="form-control" name="item" id="edit-item" placeholder="Enter item" required>
@@ -75,7 +177,11 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
+                            <th>title</th>
+                            <th>sex</th>
+                            <th>size</th>
+                            <th>color</th>
+                            <th>design</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -100,7 +206,11 @@
             ajax: "{{route('admin.getitems')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                {data : 'name'},
+                {data : 'title'},
+                {data : 'sex'},
+                {data : 'size'},
+                {data : 'color'},
+                {data : 'design'},
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
         });
@@ -108,7 +218,7 @@
         $(document).on('submit','#itemForm', function (e) {
 
             e.preventDefault();
-            
+
             var formData = new FormData(this);
 
             console.log(formData);
@@ -157,16 +267,24 @@
 
         });
 
-        $('#edititemModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); 
+        $('#editItemModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
             var editId = button.data('id');
-            var editTitle = button.data('name');
-            
+            var editItem = button.data('item');
+            var editSize = button.data('size');
+            var editColor = button.data('color');
+            var editDesign = button.data('design');
+            var editSex = button.data('sex');
+
             var modal = $(this);
             modal.find('#edit-id').val(editId);
-            modal.find('#edit-item').val(editTitle);
-
+            modal.find('#edit-item').val(editItem);
+            modal.find('#edit-size').val(editSize);
+            modal.find('#edit-color').val(editColor);
+            modal.find('#edit-design').val(editDesign);
+            modal.find('#edit-sex').val(editSex);
         });
+
 
         $(document).on('submit', '#itemEditForm', function (e) {
             e.preventDefault();
@@ -214,7 +332,7 @@
             e.preventDefault();
 
             var id = $(this).data('id');
-            var name = $(this).data('name');
+            var name = $(this).data('title');
 
             Swal.fire({
                 title: 'Are you sure delete ' + name + ' ?',
@@ -253,6 +371,6 @@
             });
         });
     });
-    
+
 </script>
 @endsection

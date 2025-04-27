@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('size_id')->constrained('sizes');
             $table->foreignId('color_id')->constrained('colors');
             $table->foreignId('design_id')->constrained('designs');
+            $table->enum('sex', ['male', 'female']);
             $table->string('title');
             $table->softDeletes();
             $table->timestamps();

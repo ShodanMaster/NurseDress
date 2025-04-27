@@ -16,35 +16,55 @@ class ItemController extends Controller
         $sizes = Size::all();
         $colors = Color::all();
         $designs = Design::all();
-        return view('item');
+        return view('item', compact('sizes','colors', 'designs'));
     }
 
     public function getItems(Request $request){
-        $items = Item::all();
 
-        if($request->ajax()){
+        $items = Item::with('size', 'color', 'design')->get();
+
+        if ($request->ajax()) {
             return DataTables::of($items)
-            ->addIndexColumn()
-
-            ->addColumn('action', function ($row){
-                return '<a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id='. encrypt($row->id).' data-name="' . $row->name .'"  data-bs-toggle="modal" data-bs-target="#editItemModal">Edit</a>
-                        <a href="javascript:void(0)" class="btn btn-danger btn-sm deleteButton" data-id="'. encrypt($row->id) .'" data-name="'. $row->name .'">Delete</a>
-                ';
-            })
-            ->make(true);
+                ->addIndexColumn()
+                ->addColumn('sex', function ($row) {
+                    return $row->sex;
+                })
+                ->addColumn('size', function ($row) {
+                    return $row->size->name;
+                })
+                ->addColumn('color', function ($row) {
+                    return $row->color->name;
+                })
+                ->addColumn('design', function ($row) {
+                    return $row->design->name;
+                })
+                ->addColumn('action', function ($row) {
+                    return '<a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id="' . encrypt($row->id) . '" data-item="' . $row->title . '" data-size="' . $row->size->id . '" data-color="' . $row->color->id . '" data-design="' . $row->design->id . '" data-sex="' . $row->sex . '" data-bs-toggle="modal" data-bs-target="#editItemModal">Edit</a>
+                            <a href="javascript:void(0)" class="btn btn-danger btn-sm deleteButton" data-id="' . encrypt($row->id) . '" data-title="' . $row->title . '">Delete</a>';
+                })
+                ->make(true);
         }
     }
 
+
     public function store(Request $request){
-        dd($request->all());
+        // dd($request->all());
         try{
 
-            $request->validate([
-                'item' => 'required'
+            $validated = $request->validate([
+                'size' => 'required|integer|exists:sizes,id',
+                'color' => 'required|integer|exists:colors,id',
+                'design' => 'required|integer|exists:designs,id',
+                'sex' => 'required|in:male,female',
+                'item' => 'required|string|max:250',
             ]);
 
             Item::create([
-                'name' => $request->item
+                'size_id' => $validated['size'],
+                'color_id' => $validated['color'],
+                'design_id' => $validated['design'],
+                'sex' => $validated['sex'],
+                'title' => $validated['item'],
             ]);
 
             return response()->json([
@@ -53,7 +73,7 @@ class ItemController extends Controller
             ], 200);
 
         }catch (Exception $e) {
-            
+
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 $message = 'Duplicate entry found. Please ensure the data is unique.';
             } else {
@@ -70,12 +90,20 @@ class ItemController extends Controller
     public function update(Request $request){
         // dd($request->all());
         try{
-            $request->validate([
-                'item' => 'required'
+            $validated = $request->validate([
+                'size' => 'required|integer|exists:sizes,id',
+                'color' => 'required|integer|exists:colors,id',
+                'design' => 'required|integer|exists:designs,id',
+                'sex' => 'required|in:male,female',
+                'item' => 'required|string|max:250',
             ]);
 
             Item::whereId(decrypt($request->id))->update([
-                'name' => $request->item
+                'size_id' => $validated['size'],
+                'color_id' => $validated['color'],
+                'design_id' => $validated['design'],
+                'sex' => $validated['sex'],
+                'title' => $validated['item'],
             ]);
 
             return response()->json([
@@ -84,11 +112,11 @@ class ItemController extends Controller
             ], 200);
 
         }catch (Exception $e) {
-            
+
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 $message = 'Duplicate entry found. Please ensure the data is unique.';
             } else {
-                $message = 'Something Went Wrong. Please try again later.';
+                $message = 'Something Went Wrong. Please try again later.'. $e->getMessage();
             }
 
             return response()->json([
@@ -101,7 +129,7 @@ class ItemController extends Controller
         try{
 
             $item = Item::find(decrypt($request->id));
-    
+
             if($item){
                 $item->delete();
                 return response()->json([
