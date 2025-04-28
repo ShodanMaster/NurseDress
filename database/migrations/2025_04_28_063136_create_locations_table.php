@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('size_id')->constrained('sizes');
-            $table->foreignId('color_id')->constrained('colors');
-            $table->foreignId('design_id')->constrained('designs');
-            $table->enum('sex', ['male', 'female']);
-            $table->integer('box_quantity')->default(0);
-            $table->string('title');
+            $table->string('name')->unique();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('locations');
     }
 };

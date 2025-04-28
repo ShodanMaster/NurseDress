@@ -38,8 +38,11 @@ class ItemController extends Controller
                 ->addColumn('design', function ($row) {
                     return $row->design->name;
                 })
+                ->addColumn('box quantity', function ($row) {
+                    return $row->box_quantity;
+                })
                 ->addColumn('action', function ($row) {
-                    return '<a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id="' . encrypt($row->id) . '" data-item="' . $row->title . '" data-size="' . $row->size->id . '" data-color="' . $row->color->id . '" data-design="' . $row->design->id . '" data-sex="' . $row->sex . '" data-bs-toggle="modal" data-bs-target="#editItemModal">Edit</a>
+                    return '<a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id="' . encrypt($row->id) . '" data-item="' . $row->title . '" data-size="' . $row->size->id . '" data-color="' . $row->color->id . '" data-design="' . $row->design->id . '" data-sex="' . $row->sex . '" data-box_quantity="' . $row->box_quantity . '" data-bs-toggle="modal" data-bs-target="#editItemModal">Edit</a>
                             <a href="javascript:void(0)" class="btn btn-danger btn-sm deleteButton" data-id="' . encrypt($row->id) . '" data-title="' . $row->title . '">Delete</a>';
                 })
                 ->make(true);
@@ -56,6 +59,7 @@ class ItemController extends Controller
                 'color' => 'required|integer|exists:colors,id',
                 'design' => 'required|integer|exists:designs,id',
                 'sex' => 'required|in:male,female',
+                'box_quantity' => 'required|integer|max:100',
                 'item' => 'required|string|max:250',
             ]);
 
@@ -64,6 +68,7 @@ class ItemController extends Controller
                 'color_id' => $validated['color'],
                 'design_id' => $validated['design'],
                 'sex' => $validated['sex'],
+                'box_quantity' => $validated['box_quantity'],
                 'title' => $validated['item'],
             ]);
 
@@ -95,6 +100,7 @@ class ItemController extends Controller
                 'color' => 'required|integer|exists:colors,id',
                 'design' => 'required|integer|exists:designs,id',
                 'sex' => 'required|in:male,female',
+                'box_quantity' => 'required|integer|max:100',
                 'item' => 'required|string|max:250',
             ]);
 
@@ -103,6 +109,7 @@ class ItemController extends Controller
                 'color_id' => $validated['color'],
                 'design_id' => $validated['design'],
                 'sex' => $validated['sex'],
+                'box_quantity' => $validated['box_quantity'],
                 'title' => $validated['item'],
             ]);
 

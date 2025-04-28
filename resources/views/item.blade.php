@@ -13,7 +13,7 @@
         <form id="itemForm">
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="size" class="form-label">Size: </label>
                             <select class="form-control" required name="size" id="size">
@@ -26,7 +26,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="color" class="form-label">Color: </label>
                             <select class="form-control" required name="color" id="color">
@@ -37,6 +37,12 @@
                                     <option value="" disabled>No Values Exist</option>
                                 @endforelse
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="box_quantity" class="form-label">Box Quantity: </label>
+                            <input type="number" name="box_quantity" id="box_quantity" class="form-control" placeholder="Box Quantity" required>
                         </div>
                     </div>
                 </div>
@@ -89,7 +95,7 @@
             <input type="hidden" name="id" id="edit-id">
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="size" class="form-label">Size: </label>
                             <select class="form-control" required name="size" id="edit-size">
@@ -102,7 +108,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="color" class="form-label">Color: </label>
                             <select class="form-control" required name="color" id="edit-color">
@@ -113,6 +119,12 @@
                                     <option value="" disabled>No Colors Exist</option>
                                 @endforelse
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="box_quantity" class="form-label">Box Quantity: </label>
+                            <input type="number" name="box_quantity" id="edit-box_quantity" class="form-control" placeholder="Box Quantity" required>
                         </div>
                     </div>
                 </div>
@@ -182,6 +194,7 @@
                             <th>size</th>
                             <th>color</th>
                             <th>design</th>
+                            <th>box quantity</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -211,6 +224,7 @@
                 {data : 'size'},
                 {data : 'color'},
                 {data : 'design'},
+                {data : 'box_quantity'},
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
         });
@@ -275,6 +289,7 @@
             var editColor = button.data('color');
             var editDesign = button.data('design');
             var editSex = button.data('sex');
+            var editBoxQuantity = button.data('box_quantity');
 
             var modal = $(this);
             modal.find('#edit-id').val(editId);
@@ -283,6 +298,7 @@
             modal.find('#edit-color').val(editColor);
             modal.find('#edit-design').val(editDesign);
             modal.find('#edit-sex').val(editSex);
+            modal.find('#edit-box_quantity').val(editBoxQuantity);
         });
 
 

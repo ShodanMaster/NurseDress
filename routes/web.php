@@ -3,6 +3,7 @@
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\DesignController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SizeController;
 
@@ -29,6 +30,13 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::post('store-design', [DesignController::class, 'store'])->name('storedesign');
     Route::post('update-design', [DesignController::class, 'update'])->name('updatedesign');
     Route::post('delete-design', [DesignController::class, 'delete'])->name('deletedesign');
+
+
+    Route::get('location', [LocationController::class, 'index'])->name('location');
+    Route::get('get-locations', [LocationController::class, 'getLocations'])->name('getlocations');
+    Route::post('store-location', [LocationController::class, 'store'])->name('storelocation');
+    Route::post('update-location', [LocationController::class, 'update'])->name('updatelocation');
+    Route::post('delete-location', [LocationController::class, 'delete'])->name('deletelocation');
 
     Route::get('item', [ItemController::class, 'index'])->name('item');
     Route::get('get-items', [ItemController::class, 'getItems'])->name('getitems');

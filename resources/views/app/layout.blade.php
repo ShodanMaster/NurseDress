@@ -215,6 +215,30 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('admin.location')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Location</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.item')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Item</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.item')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Item</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.item')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Item</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('admin.item')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Item</p>
