@@ -191,7 +191,9 @@
             <a href="#" class="nav-link"> --}}
           <li class="nav-item {{ request()->is('master/*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ request()->is('master/*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-globe"></i>
               <p>
+
                 Masters
                 <i class="fas fa-angle-left right"></i>
               </p>
