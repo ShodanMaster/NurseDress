@@ -174,9 +174,8 @@
             <a href="#" class="nav-link"> --}}
           <li class="nav-item {{ request()->is('master/*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ request()->is('master/*') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-globe"></i>
+              <i class="nav-icon fas fa-globe"></i>
               <p>
-
                 Masters
                 <i class="fas fa-angle-left right"></i>
               </p>
@@ -221,7 +220,7 @@
               <li class="nav-item">
                 <a href="{{route('master.employee')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>employee</p>
+                  <p>Employee</p>
                 </a>
               </li>
               {{-- <li class="nav-item">
@@ -233,19 +232,19 @@
             </ul>
           </li>
 
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+          <li class="nav-item {{ request()->is('transaction/*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ request()->is('transaction/*') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-truck"></i>
               <p>
-                Charts
+                Transaction
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('test.welcome')}}" class="nav-link">
+                <a href="{{route('transaction.grn')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Test</p>
+                  <p>GRN</p>
                 </a>
               </li>
               <li class="nav-item">
