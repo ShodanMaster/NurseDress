@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Master;
 
+use App\Http\Controllers\Controller;
 use App\Models\Item;
 use App\Models\Size;
 use App\Models\Color;
@@ -16,7 +17,7 @@ class ItemController extends Controller
         $sizes = Size::all();
         $colors = Color::all();
         $designs = Design::all();
-        return view('item', compact('sizes','colors', 'designs'));
+        return view('master.item', compact('sizes','colors', 'designs'));
     }
 
     public function getItems(Request $request){

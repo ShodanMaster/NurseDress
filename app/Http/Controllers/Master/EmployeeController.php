@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Master;
 
+use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Exception;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use function PHPSTORM_META\type;
 class EmployeeController extends Controller
 {
     public function index(){
-        return view('employee');
+        return view('master.employee');
     }
 
     public function getEmployees(Request $request){

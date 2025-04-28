@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Master;
 
+use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Exception;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ use Yajra\DataTables\DataTables;
 class LocationController extends Controller
 {
     public function index(){
-        return view('location');
+        return view('master.location');
     }
 
     public function getLocations(Request $request){

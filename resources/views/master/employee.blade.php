@@ -202,7 +202,7 @@
         var table = $('#employeeTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('admin.getemployees')}}",
+            ajax: "{{route('master.getemployees')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {data : 'name'},
@@ -221,7 +221,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.storeemployee') }}",
+                url: "{{ route('master.storeemployee') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -283,7 +283,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.updateemployee') }}",
+                url: "{{ route('master.updateemployee') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -340,7 +340,7 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('admin.deleteemployee') }}",
+                        url: "{{ route('master.deleteemployee') }}",
                         data: formData,
                         processData: false,
                         contentType: false,

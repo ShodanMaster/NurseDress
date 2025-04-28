@@ -2,19 +2,29 @@
 
 @section('content')
 
-<!-- Add Design Modal -->
-<div class="modal fade" id="addDesignModal" tabindex="-1" aria-labelledby="addDesignModalLabel" aria-hidden="true">
+<!-- Add Bin Modal -->
+<div class="modal fade" id="addBinModal" tabindex="-1" aria-labelledby="addBinModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="addDesignModalLabel">Add Design</h5>
+          <h5 class="modal-title" id="addBinModalLabel">Add Bin</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="designForm">
+        <form id="binForm">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="design" class="form-label">Design</label>
-                    <input type="text" class="form-control" name="design" id="design" placeholder="Enter Design" required>
+                    <label for="location_id" class="form-label">Location</label>
+                    <select class="form-control" name="location_id" id="location_id">
+                        <option value="" selected disabled> --Select Location--</option>
+
+                        @foreach ($locations as $location)
+                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bin" class="form-label">Bin</label>
+                    <input type="text" class="form-control" name="bin" id="bin" placeholder="Enter bin" required>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -26,25 +36,35 @@
     </div>
 </div>
 
-<!-- Edit Design Modal -->
-<div class="modal fade" id="editDesignModal" tabindex="-1" aria-labelledby="editDesignModalLabel" aria-hidden="true">
+<!-- Edit Bin Modal -->
+<div class="modal fade" id="editBinModal" tabindex="-1" aria-labelledby="editBinModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="editDesignModalLabel">Edit Design</h5>
+          <h5 class="modal-title" id="editBinModalLabel">Edit Bin</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="designEditForm">
+        <form id="binEditForm">
             <input type="hidden" name="id" id="edit-id">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="design" class="form-label">Design</label>
-                    <input type="text" class="form-control" name="design" id="edit-design" placeholder="Enter design" required>
+                    <label for="edit-location_id" class="form-label">Location</label>
+                    <select class="form-control" name="location_id" id="edit-location_id">
+                        <option value="" selected disabled> --Select Location--</option>
+
+                        @foreach ($locations as $location)
+                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bin" class="form-label">Bin</label>
+                    <input type="text" class="form-control" name="bin" id="edit-bin" placeholder="Enter bin" required>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Update Design</button>
+                <button type="submit" class="btn btn-primary">Update Bin</button>
             </div>
         </form>
       </div>
@@ -55,27 +75,28 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="m-0">Design Master</h1>
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addDesignModal">
-                <i class="fas fa-plus"></i> Add Design
+            <h1 class="m-0">Bin Master</h1>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addBinModal">
+                <i class="fas fa-plus"></i> Add Bin
             </button>
         </div>
     </div>
 </div>
 
-<!-- Design Table Card -->
+<!-- Bin Table Card -->
 <section class="content">
     <div class="container-fluid">
         <div class="card card-primary card-outline">
             <div class="card-header">
-                <h3 class="card-title">Design Table</h3>
+                <h3 class="card-title">Bin Table</h3>
             </div>
             <div class="card-body">
-                <table id="designTable" class="table table-bordered table-striped">
+                <table id="binTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Name</th>
+                            <th>Location</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -94,28 +115,31 @@
 <script>
     $(document).ready( function () {
 
-        var table = $('#designTable').DataTable({
+        var table = $('#binTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('admin.getdesigns')}}",
+            ajax: "{{route('master.getbins')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {data : 'name'},
+                {data : 'location'},
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
         });
 
-        $(document).on('submit','#designForm', function (e) {
+        $(document).on('submit','#binForm', function (e) {
 
             e.preventDefault();
-            
+
+            console.log('qwerty');
+
             var formData = new FormData(this);
 
             console.log(formData);
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.storedesign') }}",
+                url: "{{ route('master.storebin') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -131,10 +155,10 @@
                         });
 
                         // Reset form
-                        $('#designForm')[0].reset();
+                        $('#binForm')[0].reset();
 
                         // Properly hide the Bootstrap modal
-                        $('#addDesignModal').modal('hide');
+                        $('#addBinModal').modal('hide');
 
                     } else {
                         Swal.fire({
@@ -157,25 +181,29 @@
 
         });
 
-        $('#editDesignModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); 
+        $('#editBinModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
             var editId = button.data('id');
+            var editLocation = button.data('location_id');
             var editTitle = button.data('name');
-            
+            console.log(editLocation);
+
+
             var modal = $(this);
             modal.find('#edit-id').val(editId);
-            modal.find('#edit-design').val(editTitle);
+            modal.find('#edit-location_id').val(editLocation);
+            modal.find('#edit-bin').val(editTitle);
 
         });
 
-        $(document).on('submit', '#designEditForm', function (e) {
+        $(document).on('submit', '#binEditForm', function (e) {
             e.preventDefault();
 
             var formData = new FormData(this);
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.updatedesign') }}",
+                url: "{{ route('master.updatebin') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -189,8 +217,8 @@
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'OK'
                         });
-                        $('#designEditForm')[0].reset();
-                        $('#editDesignModal').modal('hide');
+                        $('#binEditForm')[0].reset();
+                        $('#editBinModal').modal('hide');
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -232,7 +260,7 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('admin.deletedesign') }}",
+                        url: "{{ route('master.deletebin') }}",
                         data: formData,
                         processData: false,
                         contentType: false,
@@ -253,6 +281,6 @@
             });
         });
     });
-    
+
 </script>
 @endsection

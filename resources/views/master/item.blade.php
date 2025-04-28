@@ -237,7 +237,7 @@
         var table = $('#itemTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('admin.getitems')}}",
+            ajax: "{{route('master.getitems')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {data : 'title'},
@@ -261,7 +261,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.storeitem') }}",
+                url: "{{ route('master.storeitem') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -333,7 +333,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.updateitem') }}",
+                url: "{{ route('master.updateitem') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -390,7 +390,7 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('admin.deleteitem') }}",
+                        url: "{{ route('master.deleteitem') }}",
                         data: formData,
                         processData: false,
                         contentType: false,

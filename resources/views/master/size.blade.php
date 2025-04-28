@@ -2,19 +2,19 @@
 
 @section('content')
 
-<!-- Add Color Modal -->
-<div class="modal fade" id="addColorModal" tabindex="-1" aria-labelledby="addColorModalLabel" aria-hidden="true">
+<!-- Add Size Modal -->
+<div class="modal fade" id="addSizeModal" tabindex="-1" aria-labelledby="addSizeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="addColorModalLabel">Add Color</h5>
+          <h5 class="modal-title" id="addSizeModalLabel">Add Size</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="colorForm">
+        <form id="sizeForm">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="color" class="form-label">Color</label>
-                    <input type="text" class="form-control" name="color" id="color" placeholder="Enter Color" required>
+                    <label for="size" class="form-label">Size</label>
+                    <input type="text" class="form-control" name="size" id="size" placeholder="Enter size" required>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -26,25 +26,25 @@
     </div>
 </div>
 
-<!-- Edit Color Modal -->
-<div class="modal fade" id="editColorModal" tabindex="-1" aria-labelledby="editColorModalLabel" aria-hidden="true">
+<!-- Edit Size Modal -->
+<div class="modal fade" id="editSizeModal" tabindex="-1" aria-labelledby="editSizeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="editColorModalLabel">Edit Color</h5>
+          <h5 class="modal-title" id="editSizeModalLabel">Edit Size</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="colorEditForm">
+        <form id="sizeEditForm">
             <input type="hidden" name="id" id="edit-id">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="color" class="form-label">Color</label>
-                    <input type="text" class="form-control" name="color" id="edit-color" placeholder="Enter Color" required>
+                    <label for="size" class="form-label">Size</label>
+                    <input type="text" class="form-control" name="size" id="edit-size" placeholder="Enter size" required>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Update Color</button>
+                <button type="submit" class="btn btn-primary">Update Size</button>
             </div>
         </form>
       </div>
@@ -55,23 +55,23 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="m-0">Color Master</h1>
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addColorModal">
-                <i class="fas fa-plus"></i> Add Color
+            <h1 class="m-0">Size Master</h1>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addSizeModal">
+                <i class="fas fa-plus"></i> Add Size
             </button>
         </div>
     </div>
 </div>
 
-<!-- Color Table Card -->
+<!-- Size Table Card -->
 <section class="content">
     <div class="container-fluid">
         <div class="card card-primary card-outline">
             <div class="card-header">
-                <h3 class="card-title">Color Table</h3>
+                <h3 class="card-title">Size Table</h3>
             </div>
             <div class="card-body">
-                <table id="colorTable" class="table table-bordered table-striped">
+                <table id="sizeTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -94,10 +94,10 @@
 <script>
     $(document).ready( function () {
 
-        var table = $('#colorTable').DataTable({
+        var table = $('#sizeTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('admin.getcolors')}}",
+            ajax: "{{route('master.getsizes')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {data : 'name'},
@@ -105,17 +105,19 @@
             ],
         });
 
-        $(document).on('submit','#colorForm', function (e) {
+        $(document).on('submit','#sizeForm', function (e) {
 
             e.preventDefault();
-            
+
+            console.log('qwerty');
+
             var formData = new FormData(this);
 
             console.log(formData);
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.storecolor') }}",
+                url: "{{ route('master.storesize') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -131,10 +133,10 @@
                         });
 
                         // Reset form
-                        $('#colorForm')[0].reset();
+                        $('#sizeForm')[0].reset();
 
                         // Properly hide the Bootstrap modal
-                        $('#addColorModal').modal('hide');
+                        $('#addSizeModal').modal('hide');
 
                     } else {
                         Swal.fire({
@@ -157,25 +159,25 @@
 
         });
 
-        $('#editColorModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); 
+        $('#editSizeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
             var editId = button.data('id');
             var editTitle = button.data('name');
-            
+
             var modal = $(this);
             modal.find('#edit-id').val(editId);
-            modal.find('#edit-color').val(editTitle);
+            modal.find('#edit-size').val(editTitle);
 
         });
 
-        $(document).on('submit', '#colorEditForm', function (e) {
+        $(document).on('submit', '#sizeEditForm', function (e) {
             e.preventDefault();
 
             var formData = new FormData(this);
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.updatecolor') }}",
+                url: "{{ route('master.updatesize') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -189,8 +191,8 @@
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'OK'
                         });
-                        $('#colorEditForm')[0].reset();
-                        $('#editColorModal').modal('hide');
+                        $('#sizeEditForm')[0].reset();
+                        $('#editSizeModal').modal('hide');
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -232,7 +234,7 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('admin.deletecolor') }}",
+                        url: "{{ route('master.deletesize') }}",
                         data: formData,
                         processData: false,
                         contentType: false,
@@ -253,6 +255,6 @@
             });
         });
     });
-    
+
 </script>
 @endsection

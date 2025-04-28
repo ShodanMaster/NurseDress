@@ -97,7 +97,7 @@
         var table = $('#locationTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('admin.getlocations')}}",
+            ajax: "{{route('master.getlocations')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {data : 'name'},
@@ -117,7 +117,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.storelocation') }}",
+                url: "{{ route('master.storelocation') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -177,7 +177,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.updatelocation') }}",
+                url: "{{ route('master.updatelocation') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -234,7 +234,7 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('admin.deletelocation') }}",
+                        url: "{{ route('master.deletelocation') }}",
                         data: formData,
                         processData: false,
                         contentType: false,

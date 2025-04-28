@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Master;
 
+use App\Http\Controllers\Controller;
 use App\Models\Color;
 use Exception;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ use Yajra\DataTables\DataTables;
 class ColorController extends Controller
 {
     public function index(){
-        return view('color');
+        return view('master.color');
     }
 
     public function getColors(Request $request){
@@ -46,7 +47,7 @@ class ColorController extends Controller
             ], 200);
 
         }catch (Exception $e) {
-            
+
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 $message = 'Duplicate entry found. Please ensure the data is unique.';
             } else {
@@ -77,7 +78,7 @@ class ColorController extends Controller
             ], 200);
 
         }catch (Exception $e) {
-            
+
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 $message = 'Duplicate entry found. Please ensure the data is unique.';
             } else {
@@ -94,7 +95,7 @@ class ColorController extends Controller
         try{
 
             $color = Color::find(decrypt($request->id));
-    
+
             if($color){
                 $color->delete();
                 return response()->json([

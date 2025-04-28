@@ -1,27 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Master;
 
-use App\Models\Size;
+use App\Http\Controllers\Controller;
+use App\Models\Design;
 use Exception;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class SizeController extends Controller
+class DesignController extends Controller
 {
     public function index(){
-        return view('size');
+        return view('master.design');
     }
 
-    public function getSizes(Request $request){
-        $sizes = Size::all();
+    public function getDesigns(Request $request){
+        $designs = Design::all();
 
         if($request->ajax()){
-            return DataTables::of($sizes)
+            return DataTables::of($designs)
             ->addIndexColumn()
 
             ->addColumn('action', function ($row){
-                return '<a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id='. encrypt($row->id).' data-name="' . $row->name .'"  data-bs-toggle="modal" data-bs-target="#editSizeModal">Edit</a>
+                return '<a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id='. encrypt($row->id).' data-name="' . $row->name .'"  data-bs-toggle="modal" data-bs-target="#editDesignModal">Edit</a>
                         <a href="javascript:void(0)" class="btn btn-danger btn-sm deleteButton" data-id="'. encrypt($row->id) .'" data-name="'. $row->name .'">Delete</a>
                 ';
             })
@@ -33,24 +34,24 @@ class SizeController extends Controller
         try{
 
             $request->validate([
-                'size' => 'required'
+                'design' => 'required'
             ]);
 
-            Size::create([
-                'name' => $request->size
+            Design::create([
+                'name' => $request->design
             ]);
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Size Stored Successfully'
+                'message' => 'Design Stored Successfully'
             ], 200);
 
         }catch (Exception $e) {
-            
+
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 $message = 'Duplicate entry found. Please ensure the data is unique.';
             } else {
-                $message = 'Something Went Wrong. Please try again later.';
+                $message = 'Something Went Wrong. Please try again later.'. $e->getMessage();
             }
 
             return response()->json([
@@ -64,20 +65,20 @@ class SizeController extends Controller
         // dd($request->all());
         try{
             $request->validate([
-                'size' => 'required'
+                'design' => 'required'
             ]);
 
-            Size::whereId(decrypt($request->id))->update([
-                'name' => $request->size
+            Design::whereId(decrypt($request->id))->update([
+                'name' => $request->design
             ]);
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Size Updated Successfully'
+                'message' => 'Design Updated Successfully'
             ], 200);
 
         }catch (Exception $e) {
-            
+
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 $message = 'Duplicate entry found. Please ensure the data is unique.';
             } else {
@@ -93,18 +94,18 @@ class SizeController extends Controller
     public function delete(Request $request){
         try{
 
-            $size = Size::find(decrypt($request->id));
-    
-            if($size){
-                $size->delete();
+            $design = Design::find(decrypt($request->id));
+
+            if($design){
+                $design->delete();
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Size Deleted Successfully!',
+                    'message' => 'Design Deleted Successfully!',
                 ], 200);
             }else{
                 return response()->json([
                     'status' => 404,
-                    'message' => 'size Not Found!',
+                    'message' => 'Design Not Found!',
                 ], 404);
             }
         }catch(Exception $e){

@@ -2,19 +2,19 @@
 
 @section('content')
 
-<!-- Add Size Modal -->
-<div class="modal fade" id="addSizeModal" tabindex="-1" aria-labelledby="addSizeModalLabel" aria-hidden="true">
+<!-- Add Design Modal -->
+<div class="modal fade" id="addDesignModal" tabindex="-1" aria-labelledby="addDesignModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="addSizeModalLabel">Add Size</h5>
+          <h5 class="modal-title" id="addDesignModalLabel">Add Design</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="sizeForm">
+        <form id="designForm">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="size" class="form-label">Size</label>
-                    <input type="text" class="form-control" name="size" id="size" placeholder="Enter size" required>
+                    <label for="design" class="form-label">Design</label>
+                    <input type="text" class="form-control" name="design" id="design" placeholder="Enter Design" required>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -26,25 +26,25 @@
     </div>
 </div>
 
-<!-- Edit Size Modal -->
-<div class="modal fade" id="editSizeModal" tabindex="-1" aria-labelledby="editSizeModalLabel" aria-hidden="true">
+<!-- Edit Design Modal -->
+<div class="modal fade" id="editDesignModal" tabindex="-1" aria-labelledby="editDesignModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="editSizeModalLabel">Edit Size</h5>
+          <h5 class="modal-title" id="editDesignModalLabel">Edit Design</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="sizeEditForm">
+        <form id="designEditForm">
             <input type="hidden" name="id" id="edit-id">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="size" class="form-label">Size</label>
-                    <input type="text" class="form-control" name="size" id="edit-size" placeholder="Enter size" required>
+                    <label for="design" class="form-label">Design</label>
+                    <input type="text" class="form-control" name="design" id="edit-design" placeholder="Enter design" required>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Update Size</button>
+                <button type="submit" class="btn btn-primary">Update Design</button>
             </div>
         </form>
       </div>
@@ -55,23 +55,23 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="m-0">Size Master</h1>
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addSizeModal">
-                <i class="fas fa-plus"></i> Add Size
+            <h1 class="m-0">Design Master</h1>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addDesignModal">
+                <i class="fas fa-plus"></i> Add Design
             </button>
         </div>
     </div>
 </div>
 
-<!-- Size Table Card -->
+<!-- Design Table Card -->
 <section class="content">
     <div class="container-fluid">
         <div class="card card-primary card-outline">
             <div class="card-header">
-                <h3 class="card-title">Size Table</h3>
+                <h3 class="card-title">Design Table</h3>
             </div>
             <div class="card-body">
-                <table id="sizeTable" class="table table-bordered table-striped">
+                <table id="designTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -94,10 +94,10 @@
 <script>
     $(document).ready( function () {
 
-        var table = $('#sizeTable').DataTable({
+        var table = $('#designTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('admin.getsizes')}}",
+            ajax: "{{route('master.getdesigns')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {data : 'name'},
@@ -105,11 +105,9 @@
             ],
         });
 
-        $(document).on('submit','#sizeForm', function (e) {
+        $(document).on('submit','#designForm', function (e) {
 
             e.preventDefault();
-
-            console.log('qwerty');
 
             var formData = new FormData(this);
 
@@ -117,7 +115,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.storesize') }}",
+                url: "{{ route('master.storedesign') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -133,10 +131,10 @@
                         });
 
                         // Reset form
-                        $('#sizeForm')[0].reset();
+                        $('#designForm')[0].reset();
 
                         // Properly hide the Bootstrap modal
-                        $('#addSizeModal').modal('hide');
+                        $('#addDesignModal').modal('hide');
 
                     } else {
                         Swal.fire({
@@ -159,25 +157,25 @@
 
         });
 
-        $('#editSizeModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); 
+        $('#editDesignModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
             var editId = button.data('id');
             var editTitle = button.data('name');
-            
+
             var modal = $(this);
             modal.find('#edit-id').val(editId);
-            modal.find('#edit-size').val(editTitle);
+            modal.find('#edit-design').val(editTitle);
 
         });
 
-        $(document).on('submit', '#sizeEditForm', function (e) {
+        $(document).on('submit', '#designEditForm', function (e) {
             e.preventDefault();
 
             var formData = new FormData(this);
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.updatesize') }}",
+                url: "{{ route('master.updatedesign') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -191,8 +189,8 @@
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'OK'
                         });
-                        $('#sizeEditForm')[0].reset();
-                        $('#editSizeModal').modal('hide');
+                        $('#designEditForm')[0].reset();
+                        $('#editDesignModal').modal('hide');
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -234,7 +232,7 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('admin.deletesize') }}",
+                        url: "{{ route('master.deletedesign') }}",
                         data: formData,
                         processData: false,
                         contentType: false,
@@ -255,6 +253,6 @@
             });
         });
     });
-    
+
 </script>
 @endsection

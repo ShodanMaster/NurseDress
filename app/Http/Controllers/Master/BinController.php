@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Master;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Bin;
 use App\Models\Location;
@@ -13,7 +15,7 @@ class BinController extends Controller
 {
     public function index(){
         $locations = Location::all();
-        return view('bin', compact('locations'));
+        return view('master.bin', compact('locations'));
     }
 
     public function getBins(Request $request){

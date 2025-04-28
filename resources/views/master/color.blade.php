@@ -2,29 +2,19 @@
 
 @section('content')
 
-<!-- Add Bin Modal -->
-<div class="modal fade" id="addBinModal" tabindex="-1" aria-labelledby="addBinModalLabel" aria-hidden="true">
+<!-- Add Color Modal -->
+<div class="modal fade" id="addColorModal" tabindex="-1" aria-labelledby="addColorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="addBinModalLabel">Add Bin</h5>
+          <h5 class="modal-title" id="addColorModalLabel">Add Color</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="binForm">
+        <form id="colorForm">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="location_id" class="form-label">Location</label>
-                    <select class="form-control" name="location_id" id="location_id">
-                        <option value="" selected disabled> --Select Location--</option>
-
-                        @foreach ($locations as $location)
-                            <option value="{{ $location->id }}">{{ $location->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="bin" class="form-label">Bin</label>
-                    <input type="text" class="form-control" name="bin" id="bin" placeholder="Enter bin" required>
+                    <label for="color" class="form-label">Color</label>
+                    <input type="text" class="form-control" name="color" id="color" placeholder="Enter Color" required>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -36,35 +26,25 @@
     </div>
 </div>
 
-<!-- Edit Bin Modal -->
-<div class="modal fade" id="editBinModal" tabindex="-1" aria-labelledby="editBinModalLabel" aria-hidden="true">
+<!-- Edit Color Modal -->
+<div class="modal fade" id="editColorModal" tabindex="-1" aria-labelledby="editColorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="editBinModalLabel">Edit Bin</h5>
+          <h5 class="modal-title" id="editColorModalLabel">Edit Color</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="binEditForm">
+        <form id="colorEditForm">
             <input type="hidden" name="id" id="edit-id">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="edit-location_id" class="form-label">Location</label>
-                    <select class="form-control" name="location_id" id="edit-location_id">
-                        <option value="" selected disabled> --Select Location--</option>
-
-                        @foreach ($locations as $location)
-                            <option value="{{ $location->id }}">{{ $location->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="bin" class="form-label">Bin</label>
-                    <input type="text" class="form-control" name="bin" id="edit-bin" placeholder="Enter bin" required>
+                    <label for="color" class="form-label">Color</label>
+                    <input type="text" class="form-control" name="color" id="edit-color" placeholder="Enter Color" required>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Update Bin</button>
+                <button type="submit" class="btn btn-primary">Update Color</button>
             </div>
         </form>
       </div>
@@ -75,28 +55,27 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="m-0">Bin Master</h1>
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addBinModal">
-                <i class="fas fa-plus"></i> Add Bin
+            <h1 class="m-0">Color Master</h1>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addColorModal">
+                <i class="fas fa-plus"></i> Add Color
             </button>
         </div>
     </div>
 </div>
 
-<!-- Bin Table Card -->
+<!-- Color Table Card -->
 <section class="content">
     <div class="container-fluid">
         <div class="card card-primary card-outline">
             <div class="card-header">
-                <h3 class="card-title">Bin Table</h3>
+                <h3 class="card-title">Color Table</h3>
             </div>
             <div class="card-body">
-                <table id="binTable" class="table table-bordered table-striped">
+                <table id="colorTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Location</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -115,23 +94,20 @@
 <script>
     $(document).ready( function () {
 
-        var table = $('#binTable').DataTable({
+        var table = $('#colorTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('admin.getbins')}}",
+            ajax: "{{route('master.getcolors')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {data : 'name'},
-                {data : 'location'},
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
         });
 
-        $(document).on('submit','#binForm', function (e) {
+        $(document).on('submit','#colorForm', function (e) {
 
             e.preventDefault();
-
-            console.log('qwerty');
 
             var formData = new FormData(this);
 
@@ -139,7 +115,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.storebin') }}",
+                url: "{{ route('master.storecolor') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -155,10 +131,10 @@
                         });
 
                         // Reset form
-                        $('#binForm')[0].reset();
+                        $('#colorForm')[0].reset();
 
                         // Properly hide the Bootstrap modal
-                        $('#addBinModal').modal('hide');
+                        $('#addColorModal').modal('hide');
 
                     } else {
                         Swal.fire({
@@ -181,29 +157,25 @@
 
         });
 
-        $('#editBinModal').on('show.bs.modal', function (event) {
+        $('#editColorModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var editId = button.data('id');
-            var editLocation = button.data('location_id');
             var editTitle = button.data('name');
-            console.log(editLocation);
-
 
             var modal = $(this);
             modal.find('#edit-id').val(editId);
-            modal.find('#edit-location_id').val(editLocation);
-            modal.find('#edit-bin').val(editTitle);
+            modal.find('#edit-color').val(editTitle);
 
         });
 
-        $(document).on('submit', '#binEditForm', function (e) {
+        $(document).on('submit', '#colorEditForm', function (e) {
             e.preventDefault();
 
             var formData = new FormData(this);
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.updatebin') }}",
+                url: "{{ route('master.updatecolor') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -217,8 +189,8 @@
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'OK'
                         });
-                        $('#binEditForm')[0].reset();
-                        $('#editBinModal').modal('hide');
+                        $('#colorEditForm')[0].reset();
+                        $('#editColorModal').modal('hide');
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -260,7 +232,7 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('admin.deletebin') }}",
+                        url: "{{ route('master.deletecolor') }}",
                         data: formData,
                         processData: false,
                         contentType: false,

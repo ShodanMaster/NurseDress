@@ -1,19 +1,19 @@
 <?php
 
-use App\Http\Controllers\BinController;
-use App\Http\Controllers\ColorController;
-use App\Http\Controllers\DesignController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\LocationController;
+use App\Http\Controllers\Master\BinController;
+use App\Http\Controllers\Master\ColorController;
+use App\Http\Controllers\Master\DesignController;
+use App\Http\Controllers\Master\EmployeeController;
+use App\Http\Controllers\Master\ItemController;
+use App\Http\Controllers\Master\LocationController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SizeController;
+use App\Http\Controllers\Master\SizeController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->name('admin.')->group(function(){
+Route::prefix('master')->name('master.')->group(function(){
 
     Route::get('size', [SizeController::class, 'index'])->name('size');
     Route::get('get-sizes', [SizeController::class, 'getSizes'])->name('getsizes');
@@ -56,4 +56,10 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::post('store-employee', [EmployeeController::class, 'store'])->name('storeemployee');
     Route::post('update-employee', [EmployeeController::class, 'update'])->name('updateemployee');
     Route::post('delete-employee', [EmployeeController::class, 'delete'])->name('deleteemployee');
+});
+
+Route::prefix('test')->name('test.')->group(function(){
+    Route::get('test', function () {
+        return view('welcome');
+    })->name('welcome');
 });

@@ -177,7 +177,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="{{asset('adminasset/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Nurse Dress</span>
     </a>
 
     <!-- Sidebar -->
@@ -187,9 +187,10 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
 
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-
+          {{-- <li class="nav-item">
+            <a href="#" class="nav-link"> --}}
+          <li class="nav-item {{ request()->is('master/*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ request()->is('master/*') ? 'active' : '' }}">
               <p>
                 Masters
                 <i class="fas fa-angle-left right"></i>
@@ -197,55 +198,56 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('admin.size')}}" class="nav-link">
+                <a href="{{route('master.size')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Size</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.color')}}" class="nav-link">
+                <a href="{{route('master.color')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Color</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.design')}}" class="nav-link">
+                <a href="{{route('master.design')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Design</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.location')}}" class="nav-link">
+                <a href="{{route('master.location')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Location</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.bin')}}" class="nav-link">
+                <a href="{{route('master.bin')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Bin</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.item')}}" class="nav-link">
+                <a href="{{route('master.item')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Item</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.employee')}}" class="nav-link">
+                <a href="{{route('master.employee')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>employee</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{route('admin.item')}}" class="nav-link">
+              {{-- <li class="nav-item">
+                <a href="{{route('master.item')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Item</p>
                 </a>
-              </li>
+              </li> --}}
             </ul>
           </li>
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -256,9 +258,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
+                <a href="{{route('test.welcome')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
+                  <p>Test</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -843,6 +845,12 @@
 
 
 <script>
+    $(document).ready(function() {
+        if (window.location.href.indexOf("master") > -1) {
+            $(".nav-item.menu-open").addClass("menu-open");  // Ensure the 'Masters' menu is open
+            $(".nav-link.active").closest(".nav-item").addClass("menu-open");
+        }
+    });
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
