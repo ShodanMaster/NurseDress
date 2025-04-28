@@ -3,6 +3,7 @@
 use App\Http\Controllers\BinController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\DesignController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
@@ -49,4 +50,10 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::post('store-item', [ItemController::class, 'store'])->name('storeitem');
     Route::post('update-item', [ItemController::class, 'update'])->name('updateitem');
     Route::post('delete-item', [ItemController::class, 'delete'])->name('deleteitem');
+
+    Route::get('employee', [EmployeeController::class, 'index'])->name('employee');
+    Route::get('get-employees', [EmployeeController::class, 'getEmployees'])->name('getemployees');
+    Route::post('store-employee', [EmployeeController::class, 'store'])->name('storeemployee');
+    Route::post('update-employee', [EmployeeController::class, 'update'])->name('updateemployee');
+    Route::post('delete-employee', [EmployeeController::class, 'delete'])->name('deleteemployee');
 });
