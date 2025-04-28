@@ -69,9 +69,19 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="item" class="form-label">Item</label>
-                    <input type="text" class="form-control" name="item" id="item" placeholder="Enter Item" required>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="item" class="form-label">Item</label>
+                            <input type="text" class="form-control" name="item" id="item" placeholder="Enter Item" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" class="form-control" step="0.01" name="amount" id="amount" placeholder="Enter amount" required>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -151,9 +161,19 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="item" class="form-label">Item</label>
-                    <input type="text" class="form-control" name="item" id="edit-item" placeholder="Enter item" required>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="item" class="form-label">Item</label>
+                            <input type="text" class="form-control" name="item" id="edit-item" placeholder="Enter item" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="edit-amount" class="form-label">Amount</label>
+                            <input type="number" class="form-control" step="0.01" name="amount" id="edit-amount" placeholder="Enter amount" required>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -194,6 +214,7 @@
                             <th>size</th>
                             <th>color</th>
                             <th>design</th>
+                            <th>amount</th>
                             <th>box quantity</th>
                             <th>Action</th>
                         </tr>
@@ -224,6 +245,7 @@
                 {data : 'size'},
                 {data : 'color'},
                 {data : 'design'},
+                {data : 'amount'},
                 {data : 'box_quantity'},
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -287,6 +309,7 @@
             var editItem = button.data('item');
             var editSize = button.data('size');
             var editColor = button.data('color');
+            var editAmount = button.data('amount');
             var editDesign = button.data('design');
             var editSex = button.data('sex');
             var editBoxQuantity = button.data('box_quantity');
@@ -296,6 +319,7 @@
             modal.find('#edit-item').val(editItem);
             modal.find('#edit-size').val(editSize);
             modal.find('#edit-color').val(editColor);
+            modal.find('#edit-amount').val(editAmount);
             modal.find('#edit-design').val(editDesign);
             modal.find('#edit-sex').val(editSex);
             modal.find('#edit-box_quantity').val(editBoxQuantity);

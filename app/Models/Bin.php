@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bin extends Model
 {
-    // use SoftDeletes;
+    use SoftDeletes;
 
     protected$guarded = [];
 
