@@ -42,8 +42,8 @@ class EmployeeController extends Controller
             ]);
 
             Employee::create([
-                'name' => $request->username,
-                'password' => $request->password,
+                'username' => $request->username,
+                'password' => bcrypt($request->password),
                 'type' => $request->type,
             ]);
 
@@ -80,7 +80,7 @@ class EmployeeController extends Controller
 
             if($employee){
 
-                $employee->name = $request->username;
+                $employee->username = $request->username;
 
                 $employee->type = $request->type;
 

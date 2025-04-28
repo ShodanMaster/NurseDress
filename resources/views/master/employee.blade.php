@@ -205,7 +205,7 @@
             ajax: "{{route('master.getemployees')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                {data : 'name'},
+                {data : 'username'},
                 {data : 'type'},
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
