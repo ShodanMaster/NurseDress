@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BinController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\DesignController;
 use App\Http\Controllers\ItemController;
@@ -31,12 +32,17 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::post('update-design', [DesignController::class, 'update'])->name('updatedesign');
     Route::post('delete-design', [DesignController::class, 'delete'])->name('deletedesign');
 
-
     Route::get('location', [LocationController::class, 'index'])->name('location');
     Route::get('get-locations', [LocationController::class, 'getLocations'])->name('getlocations');
     Route::post('store-location', [LocationController::class, 'store'])->name('storelocation');
     Route::post('update-location', [LocationController::class, 'update'])->name('updatelocation');
     Route::post('delete-location', [LocationController::class, 'delete'])->name('deletelocation');
+
+    Route::get('bin', [BinController::class, 'index'])->name('bin');
+    Route::get('get-bins', [BinController::class, 'getBins'])->name('getbins');
+    Route::post('store-bin', [BinController::class, 'store'])->name('storebin');
+    Route::post('update-bin', [BinController::class, 'update'])->name('updatebin');
+    Route::post('delete-bin', [BinController::class, 'delete'])->name('deletebin');
 
     Route::get('item', [ItemController::class, 'index'])->name('item');
     Route::get('get-items', [ItemController::class, 'getItems'])->name('getitems');

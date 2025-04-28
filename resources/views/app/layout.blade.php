@@ -221,9 +221,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.item')}}" class="nav-link">
+                <a href="{{route('admin.bin')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Item</p>
+                  <p>Bin</p>
                 </a>
               </li>
               <li class="nav-item">
