@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('invoice_no')->nullable();
             $table->date('invoice_date')->nullable();
             $table->foreignId('location_id')->constrained('locations')->cascadeOnDelete();
+            // $table->string('batch')->nullable();
             $table->string('remarks')->nullable();
             $table->integer('status')->default(0)->comment('0=>storage scan not completed;1=>storage scan completed;');
             $table->integer('qc_status')->default(0)->comment('0 => qc not done; 1 => qc done');

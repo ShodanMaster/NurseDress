@@ -57,7 +57,7 @@ class GrnController extends Controller
                 $total_price = (int)$item['quantity'] * (int)$item['amount'];
                 while ($barcodes--){
                     $nextBarcode  = Barcode::nextNumber();
-                    
+
                     $barcodeObj = new Barcode();
                     $barcodeObj->barcode = $nextBarcode ;
                     $barcodeObj->grn_id = $grnId;
@@ -65,18 +65,21 @@ class GrnController extends Controller
                     $barcodeObj->item_id = $item['item_id'];
                     $barcodeObj->price = $item['amount'];
                     $barcodeObj->total_price = $item['amount'];
+                    $barcodeObj->quantity = 1;
                     $barcodeObj->status = '-1';
                     $barcodeObj->qc_status = '0';
 
                     $barcodeObj->save();
-                    
+
                 }
             }
         }else{
-            return redirect()->back()->with('error', 'Nothing To Save');
+            flash()->warning('Nothing To Save');
+            return redirect()->back();
         }
 
         DB::commit();
-        return redirect()->back()->with('success', "GRN Entry Successful: ".$grn->grn_no);
+        flash()->success("GRN Entry Successful: ".$grn->grn_no);
+        return redirect()->back();
     }
 }

@@ -160,7 +160,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="{{asset('adminasset/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Nurse Dress</span>
+      <span class="brand-text font-weight-light">Cape Scrubs</span>
     </a>
 
     <!-- Sidebar -->
@@ -168,68 +168,60 @@
      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
-
-          {{-- <li class="nav-item">
-            <a href="#" class="nav-link"> --}}
           <li class="nav-item {{ request()->is('master/*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ request()->is('master/*') ? 'active' : '' }}">
-              <i class="nav-icon fas fa-globe"></i>
+                <i class="nav-icon fas fa-globe"></i>
               <p>
                 Masters
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('master.size')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Size</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('master.color')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Color</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('master.design')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Design</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('master.location')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Location</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('master.bin')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Bin</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('master.item')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Item</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('master.employee')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Employee</p>
-                </a>
-              </li>
-              {{-- <li class="nav-item">
-                <a href="{{route('master.item')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Item</p>
-                </a>
-              </li> --}}
+                <li class="nav-item">
+                    <a href="{{ route('master.size') }}" class="nav-link {{ request()->routeIs('master.size') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Size</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('master.color') }}" class="nav-link {{ request()->routeIs('master.color') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Color</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('master.design') }}" class="nav-link {{ request()->routeIs('master.design') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Design</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('master.location') }}" class="nav-link {{ request()->routeIs('master.location') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Location</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('master.bin') }}" class="nav-link {{ request()->routeIs('master.bin') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Bin</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('master.item') }}" class="nav-link {{ request()->routeIs('master.item') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+
+                        <p>Item</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('master.employee') }}" class="nav-link {{ request()->routeIs('master.employee') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Employee</p>
+                    </a>
+                </li>
             </ul>
+
           </li>
 
           <li class="nav-item {{ request()->is('transaction/*') ? 'menu-open' : '' }}">
@@ -242,7 +234,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('transaction.grn')}}" class="nav-link">
+                <a href="{{route('transaction.grn')}}" class="nav-link {{ request()->routeIs('transaction.grn') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>GRN</p>
                 </a>

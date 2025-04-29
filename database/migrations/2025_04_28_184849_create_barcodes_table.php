@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('grn_id')->constrained('grns');
             $table->foreignId('location_id')->constrained('locations');
             $table->foreignId('item_id')->constrained('items');
+            $table->integer('quantity')->default(1);
             $table->enum('status', ['-1', '0', '1', '2', '3', '4', '5', '6', '8', '9'])
                         ->default('-1')
                         ->comment('-1=>NIS,0=>purchase return,1=>stock,2=>Dispatch,6=>Rejection,4=>Transit,8=>stock_out,5=>production,9=>repacked');

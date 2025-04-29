@@ -46,6 +46,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="remarks" class="form-label">Remarks</label>
+                        <textarea class="form-control" name="remarks" id="remarks" cols="30" rows="5"></textarea>
+                    </div>
+                    <hr>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="item" class="form-label">Item</label>
@@ -80,8 +85,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -90,16 +93,14 @@
                             </div>
                         </div>
                         <div class="col-md-3"></div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="remarks" class="form-label">Remarks</label>
-                                <textarea class="form-control" name="remarks" id="remarks" cols="30" rows="1"></textarea>
-                            </div>
-                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
                     </div>
-                    <div class="d-flex justify-content-end mb-3">
+                    <div class="mb-3">
                         <button type="button" id="add-to-grid" class="btn btn-primary">Add to Grid</button>
                     </div>
+                </div>
+                <div class="card-footer">
                     <div class="table-responsive">
                         <table class="table" id="grngrid">
                             <thead>
@@ -208,14 +209,28 @@
 
                 row.remove();
 
-                // Re-index serial numbers
+                // Re-index serial numbers and input names
                 Array.from(gridBody.children).forEach((row, index) => {
-                    row.children[0].textContent = index + 1;
+                    row.children[0].textContent = index + 1; // Update serial number
+
+                    // Update name attributes
+                    row.querySelectorAll('input').forEach(input => {
+                        if (input.name.includes('[item_id]')) {
+                            input.name = `items[${index + 1}][item_id]`;
+                        } else if (input.name.includes('[quantity]')) {
+                            input.name = `items[${index + 1}][quantity]`;
+                        } else if (input.name.includes('[barcodes]')) {
+                            input.name = `items[${index + 1}][barcodes]`;
+                        } else if (input.name.includes('[amount]')) {
+                            input.name = `items[${index + 1}][amount]`;
+                        }
+                    });
                 });
 
                 rowCount = gridBody.children.length;
             }
         });
+
 
         form.addEventListener('submit', function (e) {
             const gridHasRows = gridBody.querySelectorAll('tr').length > 0;
@@ -227,5 +242,4 @@
         });
     });
 </script>
-
 @endsection
