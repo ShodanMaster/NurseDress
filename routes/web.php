@@ -9,6 +9,7 @@ use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Master\SizeController;
+use App\Http\Controllers\StorageController;
 use App\Http\Controllers\Transaction\GrnController;
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -71,6 +72,9 @@ Route::middleware('auth:employee')->group(function () {
 
         Route::get('grn', [GrnController::class, 'index'])->name('grn');
         Route::post('grn-store', [GrnController::class, 'store'])->name('grnstore');
+
+        Route::get('rejection', [StorageController::class, 'rejection'])->name('rejection');
+        Route::post('qc-store', [StorageController::class, 'store'])->name('qcstore');
 
     });
 

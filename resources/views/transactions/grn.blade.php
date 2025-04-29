@@ -96,7 +96,7 @@
                         <div class="col-md-3"></div>
                         <div class="col-md-3"></div>
                     </div>
-                    <div class="mb-3">
+                    <div class="d-flex justify-content-end mb-3">
                         <button type="button" id="add-to-grid" class="btn btn-primary">Add to Grid</button>
                     </div>
                 </div>

@@ -240,9 +240,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
+                <a href="{{route('transaction.rejection')}}" class="nav-link {{ request()->routeIs('transaction.qc') ? 'active' : '' }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
+                  <p>Rejection Scan</p>
                 </a>
               </li>
               <li class="nav-item">
