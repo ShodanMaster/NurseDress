@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class Barcode extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
 
     protected $guarded = [];
 
@@ -29,7 +29,7 @@ class Barcode extends Model
 
         FROM
 
-        (SELECT IFNULL(MAX(SUBSTRING(barcode,$len+1)),'0') max_barcode 
+        (SELECT IFNULL(MAX(SUBSTRING(barcode,$len+1)),'0') max_barcode
 
             FROM barcodes WHERE  barcode LIKE '$prefix%') P2");
 

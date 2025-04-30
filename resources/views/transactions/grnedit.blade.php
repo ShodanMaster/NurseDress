@@ -7,7 +7,7 @@
             <div class="card-header mt-2">
                 <h3 class="card-title">GRN Edit</h3>
             </div>
-            <form method="POST" action="{{ route('transaction.grnstore') }}" id="grn-form">
+            <form method="POST" action="{{ route('transaction.grnupdate') }}" id="grn-form">
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -45,7 +45,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="invoice-no" class="form-label">Invoice Number</label>
-                                    <input type="text" class="form-control" name="invoiceno" id="invoice-no" required>
+                                    <input type="text" class="form-control" name="invoiceno" id="invoice-no">
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="invoice-date" class="form-label">Invoice Date</label>
-                                    <input type="date" class="form-control" name="invoicedate" id="invoice-date" required>
+                                    <input type="date" class="form-control" name="invoicedate" id="invoice-date">
                                 </div>
                             </div>
 
@@ -71,7 +71,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="item" class="form-label">Item</label>
-                                <select class="form-control" name="item" id="item" required>
+                                <select class="form-control" name="item" id="item">
                                     <option value="" selected disabled>--Select Item--</option>
                                     @forelse ($items as $item)
                                         <option value="{{ $item->id }}" data-amount="{{ $item->amount }}">{{ $item->title }}</option>
@@ -93,14 +93,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="quantity" class="form-label">Quantity</label>
-                                    <input type="number" class="form-control" name="quantity" id="quantity" required>
+                                    <input type="number" class="form-control" name="quantity" id="quantity">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="total-amount" class="form-label">Total Amount</label>
-                                    <input type="number" readonly class="form-control" name="total_amount" id="total-amount" required>
+                                    <input type="number" readonly class="form-control" name="total_amount" id="total-amount">
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="total-barcode" class="form-label">Total Barcode</label>
-                                    <input type="number" readonly class="form-control" name="total_barcode" id="total-barcode" required>
+                                    <input type="number" readonly class="form-control" name="total_barcode" id="total-barcode">
                                 </div>
                             </div>
                         </div>
@@ -159,7 +159,7 @@
                 type: "GET",
                 data: { grn_number: grnNumber },
                 success: function (response) {
-                    console.log(response);
+                    // console.log(response);
 
                     if (response.status === 200) {
                         $('#grnDetails').show();
@@ -185,16 +185,17 @@
                             const amount = sub.amount || 0;
                             const totalAmount = quantity * amount;
 
+                            console.log( totalAmount, quantity, amount);
+
                             totalBarcodes += quantity;
 
                             const newRow = `
                                 <tr>
                                     <td>${rowCount}</td>
                                     <td>${sub.item_name}<input type="hidden" name="items[${rowCount}][item_id]" value="${sub.item_id}"></td>
-                                    <td>${quantity}<input type="hidden" name="items[${rowCount}][quantity]" value="${quantity}"></td>
-                                    <td>${amount}<input type="hidden" name="items[${rowCount}][amount]" value="${amount}"></td>
-                                    <td>${totalAmount.toFixed(2)}<input type="hidden" name="items[${rowCount}][total_amount]" value="${totalAmount}"></td>
+                                    <td><input class="form-control" type="number" name="items[${rowCount}][quantity]" value="${quantity}"></td>
                                     <td>${quantity}<input type="hidden" name="items[${rowCount}][barcodes]" value="${quantity}"></td>
+                                    <input type="hidden" name="items[${rowCount}][amount]" value="${amount}">
                                     <td><button type="button" class="btn btn-danger btn-sm remove-row">Remove</button></td>
                                 </tr>
                             `;
@@ -244,13 +245,11 @@
             const quantity = parseInt(quantityInput.value) || 0;
             const amount = parseInt(amountInput.value) || 0;
 
-            // Basic validation
             if (!itemId || quantity <= 0) {
                 alert("Please select an item and enter a valid quantity.");
                 return;
             }
 
-            // Check for duplicate item
             const existingRows = gridBody.querySelectorAll('tr');
             for (let row of existingRows) {
                 const existingItemId = row.querySelector('input[name*="[item_id]"]').value;
@@ -276,14 +275,12 @@
 
             gridBody.appendChild(newRow);
 
-            // Clear inputs
             itemSelect.selectedIndex = 0;
             amountInput.value = '';
             quantityInput.value = '';
             totalAmountInput.value = '';
         });
 
-        // Remove row and update total barcode
         gridBody.addEventListener('click', function (e) {
             if (e.target && e.target.classList.contains('remove-row')) {
                 const row = e.target.closest('tr');
@@ -293,11 +290,9 @@
 
                 row.remove();
 
-                // Re-index serial numbers and input names
                 Array.from(gridBody.children).forEach((row, index) => {
-                    row.children[0].textContent = index + 1; // Update serial number
+                    row.children[0].textContent = index + 1;
 
-                    // Update name attributes
                     row.querySelectorAll('input').forEach(input => {
                         if (input.name.includes('[item_id]')) {
                             input.name = `items[${index + 1}][item_id]`;

@@ -100,7 +100,7 @@ class GrnController extends Controller
             ]);
         }
 
-        $grn = Grn::with(['grnSubs.item']) // Load related item
+        $grn = Grn::with(['grnSubs.item'])
             ->whereId( $request->grn_number)
             ->first();
 
@@ -120,12 +120,75 @@ class GrnController extends Controller
             }),
         ];
 
-        // dd($data);
         return response()->json([
             'status' => 200,
             'message' => 'GRN Found',
             'data' => $data
         ])->setStatusCode(200, 'GRN Found');
 
+    }
+
+    public function update(Request $request){
+        // dd($request->all());
+        DB::beginTransaction();
+
+        if($request){
+
+            $grn = Grn::whereId($request->grnnumber)->first();
+
+            $grn->invoice_no = $request->invoiceno;
+            $grn->invoice_date = $request->invoicedate;
+            $grn->location_id = $request->location_id;
+            $grn->remarks = $request->remarks;
+            $grn->status = 0;
+
+            $grn->save();
+
+            $grnId = $grn->id;
+
+            $grn->barcodes()->delete();
+            $grn->grnSubs()->delete();
+
+            foreach($request->items as $item){
+                $grnSub = new GrnSub();
+
+                $grnSub->grn_id = $grnId;
+                $grnSub->item_id = $item['item_id'];
+                $grnSub->quantity = $item['quantity'];
+                $grnSub->barcodes = $item['barcodes'];
+                $grnSub->scanned_qty = 0;
+                $grnSub->rejected_qty = 0;
+                $grnSub->status = 0;
+
+                $grnSub->save();
+
+                $barcodes = $item['barcodes'];
+                // $total_price = (int)$item['quantity'] * (int)$item['amount'];
+                while ($barcodes--){
+                    $nextBarcode  = Barcode::nextNumber();
+
+                    $barcodeObj = new Barcode();
+                    $barcodeObj->barcode = $nextBarcode ;
+                    $barcodeObj->grn_id = $grnId;
+                    $barcodeObj->location_id = $request->location_id;
+                    $barcodeObj->item_id = $item['item_id'];
+                    $barcodeObj->price = $item['amount'];
+                    $barcodeObj->total_price = $item['amount'];
+                    $barcodeObj->quantity = 1;
+                    $barcodeObj->status = '-1';
+                    $barcodeObj->qc_status = '0';
+
+                    $barcodeObj->save();
+
+                }
+            }
+        }else{
+            flash()->warning('Nothing To Save');
+            return redirect()->back();
+        }
+
+        DB::commit();
+        flash()->success("GRN Entry Successful: ".$grn->grn_no);
+        return redirect()->back();
     }
 }
