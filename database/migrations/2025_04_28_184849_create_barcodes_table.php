@@ -24,7 +24,6 @@ return new class extends Migration
             $table->integer('qc_status')->default(0)->comment('0:Not checked, 1: Passed, 2: Failed');
             $table->double('price',10,2)->default(0);
             $table->double('total_price',10,2)->default(0);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -17,11 +17,12 @@ return new class extends Migration
             $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
             $table->integer('quantity');
             $table->string('barcodes');
-            $table->integer('scanned_qty')->default(0);
+            $table->integer('accepted_qty')->default(0);
             $table->integer('rejected_qty')->default(0);
+            $table->integer('pending_qty')->default(null);
             $table->integer('grn_status')->default(0);
             $table->integer('status')->default(0);
-            $table->softDeletes();
+            $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->timestamps();
         });
     }

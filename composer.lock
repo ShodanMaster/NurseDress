@@ -5930,16 +5930,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v12.0.1",
+            "version": "v12.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "9e6b686f04e4fab051c064992e1cb6275a0e97e9"
+                "reference": "f7c04c922df21d304c26ee24c4cbb88afca7e0be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/9e6b686f04e4fab051c064992e1cb6275a0e97e9",
-                "reference": "9e6b686f04e4fab051c064992e1cb6275a0e97e9",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/f7c04c922df21d304c26ee24c4cbb88afca7e0be",
+                "reference": "f7c04c922df21d304c26ee24c4cbb88afca7e0be",
                 "shasum": ""
             },
             "require": {
@@ -6007,7 +6007,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables/issues",
-                "source": "https://github.com/yajra/laravel-datatables/tree/v12.0.1"
+                "source": "https://github.com/yajra/laravel-datatables/tree/v12.1.0"
             },
             "funding": [
                 {
@@ -6015,7 +6015,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-04-07T14:57:21+00:00"
+            "time": "2025-04-28T08:23:39+00:00"
         }
     ],
     "packages-dev": [
@@ -6758,16 +6758,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.13.0",
+            "version": "1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "024473a478be9df5fdaca2c793f2232fe788e414"
+                "reference": "1720ddd719e16cf0db4eb1c6eca108031636d46c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/024473a478be9df5fdaca2c793f2232fe788e414",
-                "reference": "024473a478be9df5fdaca2c793f2232fe788e414",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/1720ddd719e16cf0db4eb1c6eca108031636d46c",
+                "reference": "1720ddd719e16cf0db4eb1c6eca108031636d46c",
                 "shasum": ""
             },
             "require": {
@@ -6806,7 +6806,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.0"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.1"
             },
             "funding": [
                 {
@@ -6814,7 +6814,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-12T12:17:51+00:00"
+            "time": "2025-04-29T12:36:36+00:00"
         },
         {
             "name": "nunomaduro/collision",

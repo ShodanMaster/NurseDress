@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class Barcode extends Model
 {
-    use SoftDeletes;
 
     protected $guarded = [];
 

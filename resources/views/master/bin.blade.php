@@ -14,7 +14,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="location_id" class="form-label">Location</label>
-                    <select class="form-control" name="location_id" id="location_id">
+                    <select class="form-control" name="location_id" id="location_id" required>
                         <option value="" selected disabled> --Select Location--</option>
 
                         @foreach ($locations as $location)
@@ -49,7 +49,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="edit-location_id" class="form-label">Location</label>
-                    <select class="form-control" name="location_id" id="edit-location_id">
+                    <select class="form-control" name="location_id" id="edit-location_id" required>
                         <option value="" selected disabled> --Select Location--</option>
 
                         @foreach ($locations as $location)
@@ -131,11 +131,7 @@
 
             e.preventDefault();
 
-            console.log('qwerty');
-
             var formData = new FormData(this);
-
-            console.log(formData);
 
             $.ajax({
                 type: "POST",

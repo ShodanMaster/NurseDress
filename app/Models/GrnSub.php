@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GrnSub extends Model
 {
-    use SoftDeletes;
 
     protected $guarded = [];
 
@@ -18,5 +17,4 @@ class GrnSub extends Model
         return $this->belongsTo(Item::class);
     }
 
-    
 }

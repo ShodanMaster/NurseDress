@@ -109,7 +109,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="total-barcode" class="form-label">Total Barcode</label>
-                                    <input type="number" readonly class="form-control" name="total_barcode" id="total-barcode">
+                                    <input type="number" readonly class="form-control" name="barcodes" id="total-barcode">
                                 </div>
                             </div>
                         </div>

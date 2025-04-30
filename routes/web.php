@@ -79,6 +79,7 @@ Route::middleware('auth:employee')->group(function () {
 
         Route::get('quality-check', [QcController::class, 'index'])->name('qualitycheck');
         Route::post('qc-store', [QcController::class, 'store'])->name('qcstore');
+        Route::get('fetch-grnitem', [QcController::class, 'fetchItem'])->name('fetchitem');
 
         Route::get('rejection', [StorageController::class, 'rejection'])->name('rejection');
         // Route::post('qc-store', [StorageController::class, 'store'])->name('qcstore');

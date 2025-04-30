@@ -34,6 +34,7 @@ class GrnController extends Controller
             $grn->location_id = $request->location_id;
             $grn->remarks = $request->remarks;
             $grn->status = 0;
+            $grn->employee_id = auth()->guard('employee')->id();
 
             $grn->save();
 
@@ -46,9 +47,8 @@ class GrnController extends Controller
                 $grnSub->item_id = $item['item_id'];
                 $grnSub->quantity = $item['quantity'];
                 $grnSub->barcodes = $item['barcodes'];
-                $grnSub->scanned_qty = 0;
-                $grnSub->rejected_qty = 0;
                 $grnSub->status = 0;
+                $grnSub->employee_id = auth()->guard('employee')->id();
 
                 $grnSub->save();
 
@@ -83,7 +83,7 @@ class GrnController extends Controller
     }
 
     public function edit(){
-        $grnNumbers = Grn::all();
+        $grnNumbers = Grn::where('qc_status', '!=', 2)->get();
         $locations = Location::all();
         $items = Item::all();
         return view('transactions.grnedit', compact('grnNumbers', 'locations', 'items'));
@@ -114,8 +114,6 @@ class GrnController extends Controller
                     'item_id' => $sub->item_id,
                     'item_name' => $sub->item->title ?? 'Unknown',
                     'quantity' => $sub->quantity,
-                    'amount' => $sub->amount,
-                    'total_amount' => $sub->quantity * $sub->amount,
                 ];
             }),
         ];
@@ -141,6 +139,7 @@ class GrnController extends Controller
             $grn->location_id = $request->location_id;
             $grn->remarks = $request->remarks;
             $grn->status = 0;
+            $grn->employee_id = auth()->guard('employee')->id();
 
             $grn->save();
 
@@ -159,6 +158,7 @@ class GrnController extends Controller
                 $grnSub->scanned_qty = 0;
                 $grnSub->rejected_qty = 0;
                 $grnSub->status = 0;
+                $grnSub->employee_id = auth()->guard('employee')->id();
 
                 $grnSub->save();
 

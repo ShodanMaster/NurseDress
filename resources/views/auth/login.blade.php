@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Blog</title>
+    <title>Cape Scub</title>
     <link rel="stylesheet" href="{{asset('adminasset/dist/css/adminlte.min.css')}}">
 
     <link rel="stylesheet" href="{{ asset('adminasset/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">

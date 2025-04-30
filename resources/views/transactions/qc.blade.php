@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="card mt-3">
             <div class="card-header">
-                <h3 class="card-title">Rejection Scan</h3>
+                <h3 class="card-title">Quality Check</h3>
             </div>
             <form method="POST" action="{{ route('transaction.qcstore') }}" id="grn-form">
                 @csrf
@@ -36,7 +36,6 @@
                                     <th>Quantity</th>
                                     <th>Accepted</th>
                                     <th>Rejected</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="qualityBody"></tbody>
@@ -59,7 +58,7 @@
         $(document).on('change', '#grn-number', function () {
             var grnNumber = $(this).val();
             $.ajax({
-                url: "{{ route('transaction.fetchgrn') }}",
+                url: "{{ route('transaction.fetchitem') }}",
                 type: "GET",
                 data: { grn_number: grnNumber },
                 success: function (response) {
@@ -84,7 +83,6 @@
                                     <td>${quantity}<input type="hidden" name="items[${rowCount}][quantity]" value="${quantity}" class="quantity"></td>
                                     <td><input class="form-control accepted" type="number" name="items[${rowCount}][accepted]" min="0" required></td>
                                     <td><input class="form-control rejected" type="number" name="items[${rowCount}][rejected]" min="0" required></td>
-                                    <td><button type="button" class="btn btn-danger btn-sm remove-row">Remove</button></td>
                                 </tr>
                             `;
                             gridBody.append(newRow);
@@ -118,7 +116,7 @@
                 const accepted = parseInt($(this).find('.accepted').val()) || 0;
                 const rejected = parseInt($(this).find('.rejected').val()) || 0;
 
-                if  ((accepted + rejected) != quantity) {
+                if  ((accepted + rejected) > quantity) {
                     alert('One or more rows have invalid Accepted + Rejected quantities.');
                     valid = false;
                     return false;
