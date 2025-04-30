@@ -10,4 +10,13 @@ class GrnSub extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function grn(){
+        return $this->belongsTo(Grn::class);
+    }
+    public function item(){
+        return $this->belongsTo(Item::class);
+    }
+
+    
 }

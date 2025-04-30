@@ -21,4 +21,16 @@ class Grn extends Model
 
         return $grnno[0]->grn_number;
     }
+
+    public function grnSubs(){
+        return $this->hasMany(GrnSub::class);
+    }
+
+    public function location(){
+        return $this->belongsTo(Location::class);
+    }
+
+    public function barcodes(){
+        return $this->hasMany(Barcode::class);
+    }
 }

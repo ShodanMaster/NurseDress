@@ -19,7 +19,6 @@ class GrnController extends Controller
         $items = Item::all();
         return view('transactions.grn', compact('grnNumber', 'locations', 'items'));
     }
-
     public function store(Request $request){
         // dd($request->all());
 
@@ -81,5 +80,52 @@ class GrnController extends Controller
         DB::commit();
         flash()->success("GRN Entry Successful: ".$grn->grn_no);
         return redirect()->back();
+    }
+
+    public function edit(){
+        $grnNumbers = Grn::all();
+        $locations = Location::all();
+        $items = Item::all();
+        return view('transactions.grnedit', compact('grnNumbers', 'locations', 'items'));
+    }
+
+    public function fetchGrn(Request $request){
+        // dd($request->all());
+        $grn = Grn::whereId($request->grn_number)->first();
+
+        if(!$grn){
+            return response()->json([
+                'status' => 404,
+                'message' => 'GRN Not Found'
+            ]);
+        }
+
+        $grn = Grn::with(['grnSubs.item']) // Load related item
+            ->whereId( $request->grn_number)
+            ->first();
+
+        $data = [
+            'location_id' => $grn->location_id,
+            'invoice_no' => $grn->invoice_no,
+            'invoice_date' => $grn->invoice_date,
+            'remarks' => $grn->remarks,
+            'grn_subs' => $grn->grnSubs->map(function($sub) {
+                return [
+                    'item_id' => $sub->item_id,
+                    'item_name' => $sub->item->title ?? 'Unknown',
+                    'quantity' => $sub->quantity,
+                    'amount' => $sub->amount,
+                    'total_amount' => $sub->quantity * $sub->amount,
+                ];
+            }),
+        ];
+
+        // dd($data);
+        return response()->json([
+            'status' => 200,
+            'message' => 'GRN Found',
+            'data' => $data
+        ])->setStatusCode(200, 'GRN Found');
+
     }
 }

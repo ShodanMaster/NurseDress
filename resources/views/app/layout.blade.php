@@ -240,6 +240,13 @@
                 </a>
               </li>
               <li class="nav-item">
+              <li class="nav-item">
+                <a href="{{route('transaction.grnedit')}}" class="nav-link {{ request()->routeIs('transaction.grnedit') ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>GRN Edit</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('transaction.rejection')}}" class="nav-link {{ request()->routeIs('transaction.qc') ? 'active' : '' }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Rejection Scan</p>

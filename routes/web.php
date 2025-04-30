@@ -72,6 +72,8 @@ Route::middleware('auth:employee')->group(function () {
 
         Route::get('grn', [GrnController::class, 'index'])->name('grn');
         Route::post('grn-store', [GrnController::class, 'store'])->name('grnstore');
+        Route::get('grn-edit', [GrnController::class, 'edit'])->name('grnedit');
+        Route::get('fetch-grn', [GrnController::class, 'fetchGrn'])->name('fetchgrn');
 
         Route::get('rejection', [StorageController::class, 'rejection'])->name('rejection');
         Route::post('qc-store', [StorageController::class, 'store'])->name('qcstore');
