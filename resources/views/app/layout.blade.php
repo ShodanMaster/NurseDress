@@ -247,6 +247,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('transaction.qualitycheck')}}" class="nav-link {{ request()->routeIs('transaction.qualitycheck') ? 'active' : '' }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Quality Check</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('transaction.rejection')}}" class="nav-link {{ request()->routeIs('transaction.qc') ? 'active' : '' }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Rejection Scan</p>

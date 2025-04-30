@@ -7,7 +7,7 @@
             <div class="card-header">
                 <h3 class="card-title">Rejection Scan</h3>
             </div>
-            <form id="qc-form">
+            <form>
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
@@ -15,22 +15,34 @@
                         <input type="text" class="form-control" name="barcode" id="barcode" placeholder="Enter Barcode" required autofocus>
                     </div>
                 </div>
+
             </form>
         </div>
     </div>
 </section>
+<script>
+    const myInput = document.getElementById("barcode");
+        myInput.addEventListener("input", function() {
+
+            console.log(this.value);
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('transaction.qcstore') }}",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "barcode": this.value
+                },
+                dataType: "json",
+                success: function (response) {
+                    log(response);
+                }
+            });
+
+        });
+    </script>
 @endsection
 
 @section('scripts')
-<script>
-    $(document).ready(function () {
 
-        $('#barcode').on('change', function (e) {
-            e.preventDefault();
-            let barcodeValue = $(this).val();
-            console.log('barcode:', barcodeValue);
-            
-        });
-    });
-</script>
 @endsection

@@ -9,7 +9,8 @@ use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Master\SizeController;
-use App\Http\Controllers\StorageController;
+use App\Http\Controllers\Transaction\QcController;
+use App\Http\Controllers\Transaction\StorageController;
 use App\Http\Controllers\Transaction\GrnController;
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -76,8 +77,11 @@ Route::middleware('auth:employee')->group(function () {
         Route::get('fetch-grn', [GrnController::class, 'fetchGrn'])->name('fetchgrn');
         Route::post('grn-update', [GrnController::class, 'update'])->name('grnupdate');
 
+        Route::get('quality-check', [QcController::class, 'index'])->name('qualitycheck');
+        Route::post('qc-store', [QcController::class, 'store'])->name('qcstore');
+
         Route::get('rejection', [StorageController::class, 'rejection'])->name('rejection');
-        Route::post('qc-store', [StorageController::class, 'store'])->name('qcstore');
+        // Route::post('qc-store', [StorageController::class, 'store'])->name('qcstore');
 
     });
 

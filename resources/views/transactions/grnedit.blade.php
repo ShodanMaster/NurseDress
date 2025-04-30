@@ -139,7 +139,7 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success">Submit GRN</button>
+                        <button type="submit" class="btn btn-success">Update GRN</button>
                     </div>
                 </div>
             </form>
@@ -267,7 +267,7 @@
             newRow.innerHTML = `
                 <td>${rowCount}</td>
                 <td>${itemName}<input type="hidden" name="items[${rowCount}][item_id]" value="${itemId}"></td>
-                <td>${quantity}<input type="hidden" name="items[${rowCount}][quantity]" value="${quantity}"></td>
+                <td><input class="form-control" type="number" name="items[${rowCount}][quantity]" value="${quantity}"></td>
                 <td>${quantity}<input type="hidden" name="items[${rowCount}][barcodes]" value="${quantity}"></td>
                 <input type="hidden" name="items[${rowCount}][amount]" value="${amount}">
                 <td><button type="button" class="btn btn-danger btn-sm remove-row">Remove</button></td>

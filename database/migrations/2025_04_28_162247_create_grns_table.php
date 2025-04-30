@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('remarks')->nullable();
             $table->integer('status')->default(0)->comment('0=>storage scan not completed;1=>storage scan completed;');
             $table->integer('qc_status')->default(0)->comment('0 => qc not done; 1 => qc done');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

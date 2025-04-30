@@ -188,7 +188,7 @@ class GrnController extends Controller
         }
 
         DB::commit();
-        flash()->success("GRN Entry Successful: ".$grn->grn_no);
+        flash()->success("GRN Update Successful: ".$grn->grn_no);
         return redirect()->back();
     }
 }
