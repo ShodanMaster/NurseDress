@@ -9,6 +9,7 @@ use App\Models\GrnSub;
 use App\Models\Item;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class GrnController extends Controller
@@ -35,7 +36,7 @@ class GrnController extends Controller
             $grn->remarks = $request->remarks;
             $grn->quantity = $request->total_barcode;
             $grn->status = 0;
-            $grn->employee_id = auth()->guard('employee')->id();
+            $grn->user_id = Auth::id();
 
             $grn->save();
 
@@ -49,7 +50,7 @@ class GrnController extends Controller
                 $grnSub->quantity = $item['quantity'];
                 $grnSub->barcodes = $item['barcodes'];
                 $grnSub->status = 0;
-                $grnSub->employee_id = auth()->guard('employee')->id();
+                $grnSub->user_id = Auth::id();
 
                 $grnSub->save();
 
@@ -84,7 +85,7 @@ class GrnController extends Controller
     }
 
     public function edit(){
-        $grnNumbers = Grn::where('qc_status', '!=', 2)->get();
+        $grnNumbers = Grn::where('qc_status', '=', 0)->get();
         $locations = Location::all();
         $items = Item::all();
         return view('transactions.grnedit', compact('grnNumbers', 'locations', 'items'));
@@ -141,7 +142,7 @@ class GrnController extends Controller
             $grn->remarks = $request->remarks;
 
             $grn->status = 0;
-            $grn->employee_id = auth()->guard('employee')->id();
+            $grn->user_id = Auth::id();
 
             $grn->save();
 
@@ -160,7 +161,7 @@ class GrnController extends Controller
                 $grnSub->accepted_qty = 0;
                 $grnSub->rejected_qty = 0;
                 $grnSub->status = 0;
-                $grnSub->employee_id = auth()->guard('employee')->id();
+                $grnSub->user_id = Auth::id();
 
                 $grnSub->save();
 

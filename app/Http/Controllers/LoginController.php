@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -11,20 +11,21 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function logingIn(Request $request){
+    public function logingIn(Request $request)
+    {
         $credentials = $request->only('username', 'password');
 
-        if (auth()->guard('employee')->attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
             return redirect()->route('dashboard');
         }
 
-        flash()->warning('Wrong Credentails');
-
-        return redirect()->back();
+        return redirect()->back()->with('warning', 'Wrong Credentials');
     }
 
-    public function loggingOut(){
-        auth()->guard('employee')->logout();
-        return redirect()->route('login')->with('success', 'logged Out');
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login')->with('success', 'Logged out successfully.');
     }
+
 }

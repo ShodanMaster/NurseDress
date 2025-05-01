@@ -5,12 +5,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Grn;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QcController extends Controller
 {
     public function index()
     {
-        $grnNumbers = Grn::where('qc_status', '!=', 1)->get();
+        $grnNumbers = Grn::whereIn('qc_status', [0, 2])->get();
         return view('transactions.qc', compact('grnNumbers'));
     }
 
@@ -40,7 +41,7 @@ class QcController extends Controller
                     $pending = $qc->pending_qty;
 
                     if (!is_null($pending)) {
-                        $quantity -= $pending;
+                        $quantity -= $qc->accepted_qty + $qc->rejected_qty;
                     }
 
                     return [
@@ -58,7 +59,7 @@ class QcController extends Controller
                     $pending = $sub->pending;
 
                     if (!is_null($pending)) {
-                        $quantity -= $pending;
+                        $quantity -= $sub->accepted_qty + $sub->rejected_qty;
                     }
 
                     return [
@@ -93,7 +94,6 @@ class QcController extends Controller
 
             ]);
 
-            // $grn = Grn::where('id', $validated['grnnumber'])->first();
 
             $grn = Grn::find($validated['grnnumber']);
             if(!$grn){
@@ -111,7 +111,7 @@ class QcController extends Controller
                 $pending = $sub->quantity - ($sub->accepted_qty + $sub->rejected_qty);
                 $sub->pending_qty = max(0, $pending);
 
-                $sub->employee_id = auth()->guard('employee')->id();
+                $sub->user_id = Auth::id();
 
                 $sub->save();
             }
