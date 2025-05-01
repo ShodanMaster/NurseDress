@@ -152,29 +152,25 @@
 <script>
     $(document).ready(function () {
 
-        $(document).on('change', '#grn-number',function () {
+        $(document).on('change', '#grn-number', function () {
             var grnNumber = $(this).val();
             $.ajax({
                 url: "{{ route('transaction.fetchgrn') }}",
                 type: "GET",
                 data: { grn_number: grnNumber },
                 success: function (response) {
-                    // console.log(response);
-
                     if (response.status === 200) {
                         $('#grnDetails').show();
                         $('#footer').show();
                         const data = response.data;
 
-                        // Populate the top form fields
                         $('#location').val(data.location_id);
                         $('#invoice-no').val(data.invoice_no);
                         $('#invoice-date').val(data.invoice_date);
                         $('#remarks').val(data.remarks);
 
-                        // Populate grid
                         const gridBody = $('#grngridbody');
-                        gridBody.empty(); // clear existing rows
+                        gridBody.empty();
 
                         let rowCount = 0;
                         let totalBarcodes = 0;
@@ -184,8 +180,6 @@
                             const quantity = sub.quantity || 0;
                             const amount = sub.amount || 0;
                             const totalAmount = quantity * amount;
-
-                            console.log( totalAmount, quantity, amount);
 
                             totalBarcodes += quantity;
 
@@ -209,7 +203,6 @@
                     console.error("Error fetching GRN details:", error);
                 }
             });
-
         });
     });
 
@@ -246,7 +239,11 @@
             const amount = parseInt(amountInput.value) || 0;
 
             if (!itemId || quantity <= 0) {
-                alert("Please select an item and enter a valid quantity.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Invalid Input',
+                    text: 'Please select an item and enter a valid quantity.'
+                });
                 return;
             }
 
@@ -254,7 +251,11 @@
             for (let row of existingRows) {
                 const existingItemId = row.querySelector('input[name*="[item_id]"]').value;
                 if (existingItemId === itemId) {
-                    alert("This item is already added to the grid.");
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Duplicate Item',
+                        text: 'This item is already added to the grid.'
+                    });
                     return;
                 }
             }
@@ -283,40 +284,55 @@
 
         gridBody.addEventListener('click', function (e) {
             if (e.target && e.target.classList.contains('remove-row')) {
-                const row = e.target.closest('tr');
-                const removedBarcodes = parseInt(row.children[3].textContent) || 0;
-                totalBarcodes -= removedBarcodes;
-                totalBarcodeInput.value = totalBarcodes;
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you want to remove this item?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, remove it'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const row = e.target.closest('tr');
+                        const removedBarcodes = parseInt(row.children[3].textContent) || 0;
+                        totalBarcodes -= removedBarcodes;
+                        totalBarcodeInput.value = totalBarcodes;
 
-                row.remove();
+                        row.remove();
 
-                Array.from(gridBody.children).forEach((row, index) => {
-                    row.children[0].textContent = index + 1;
+                        Array.from(gridBody.children).forEach((row, index) => {
+                            row.children[0].textContent = index + 1;
 
-                    row.querySelectorAll('input').forEach(input => {
-                        if (input.name.includes('[item_id]')) {
-                            input.name = `items[${index + 1}][item_id]`;
-                        } else if (input.name.includes('[quantity]')) {
-                            input.name = `items[${index + 1}][quantity]`;
-                        } else if (input.name.includes('[barcodes]')) {
-                            input.name = `items[${index + 1}][barcodes]`;
-                        } else if (input.name.includes('[amount]')) {
-                            input.name = `items[${index + 1}][amount]`;
-                        }
-                    });
+                            row.querySelectorAll('input').forEach(input => {
+                                if (input.name.includes('[item_id]')) {
+                                    input.name = `items[${index + 1}][item_id]`;
+                                } else if (input.name.includes('[quantity]')) {
+                                    input.name = `items[${index + 1}][quantity]`;
+                                } else if (input.name.includes('[barcodes]')) {
+                                    input.name = `items[${index + 1}][barcodes]`;
+                                } else if (input.name.includes('[amount]')) {
+                                    input.name = `items[${index + 1}][amount]`;
+                                }
+                            });
+                        });
+
+                        rowCount = gridBody.children.length;
+                    }
                 });
-
-                rowCount = gridBody.children.length;
             }
         });
-
 
         form.addEventListener('submit', function (e) {
             const gridHasRows = gridBody.querySelectorAll('tr').length > 0;
 
             if (!gridHasRows) {
                 e.preventDefault();
-                alert("Please add at least one item to the grid before submitting.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Empty Grid',
+                    text: 'Please add at least one item to the grid before submitting.'
+                });
             }
         });
     });

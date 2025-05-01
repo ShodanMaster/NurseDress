@@ -15,7 +15,7 @@ class LoginController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (auth()->guard('employee')->attempt($credentials)) {
-            return redirect()->intended('dashboard');
+            return redirect()->route('dashboard');
         }
 
         flash()->warning('Wrong Credentails');

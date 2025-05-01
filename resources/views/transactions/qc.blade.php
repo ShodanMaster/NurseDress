@@ -95,7 +95,6 @@
             });
         });
 
-        // Validation on input change
         $(document).on('input', '.accepted, .rejected', function () {
             const row = $(this).closest('tr');
             const quantity = parseInt(row.find('.quantity').val()) || 0;
@@ -103,31 +102,39 @@
             const rejected = parseInt(row.find('.rejected').val()) || 0;
 
             if ((accepted + rejected) > quantity) {
-                alert('Accepted + Rejected cannot be greater than Quantity');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Quantity',
+                    text: 'Accepted + Rejected cannot be greater than Quantity'
+                });
                 $(this).val('');
             }
         });
 
-        // Optional: Validate on form submission too
         $('#grn-form').on('submit', function (e) {
             let valid = true;
+
             $('#qualityBody tr').each(function () {
                 const quantity = parseInt($(this).find('.quantity').val()) || 0;
                 const accepted = parseInt($(this).find('.accepted').val()) || 0;
                 const rejected = parseInt($(this).find('.rejected').val()) || 0;
 
-                if  ((accepted + rejected) > quantity) {
-                    alert('One or more rows have invalid Accepted + Rejected quantities.');
+                if ((accepted + rejected) > quantity) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Validation Error',
+                        text: 'One or more rows have invalid Accepted + Rejected values.'
+                    });
                     valid = false;
                     return false;
                 }
             });
 
             if (!valid) {
-                e.preventDefault(); // Stop form submission
+                e.preventDefault();
             }
         });
-
     });
 </script>
+
 @endsection

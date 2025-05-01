@@ -26,6 +26,10 @@ class Grn extends Model
         return $this->hasMany(GrnSub::class);
     }
 
+    public function qcs(){
+        return $this->hasMany(Qc::class);
+    }
+
     public function location(){
         return $this->belongsTo(Location::class);
     }

@@ -236,7 +236,7 @@
               <li class="nav-item">
                 <a href="{{route('transaction.grn')}}" class="nav-link {{ request()->routeIs('transaction.grn') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>GRN</p>
+                  <p>GRN Entry</p>
                 </a>
               </li>
               <li class="nav-item">

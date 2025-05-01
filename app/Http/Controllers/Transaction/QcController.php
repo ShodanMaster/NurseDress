@@ -29,27 +29,47 @@ class QcController extends Controller
             ->whereId( $request->grn_number)
             ->first();
 
-        $data = [
-            'location_id' => $grn->location_id,
-            'invoice_no' => $grn->invoice_no,
-            'invoice_date' => $grn->invoice_date,
-            'remarks' => $grn->remarks,
-            'grn_subs' => $grn->grnSubs->map(function($sub) {
+        $data = [];
 
-                $quantity= $sub->quantity;
-                $pending = $sub->pending;
+        if ($grn->qcs->isNotEmpty()) {
 
-                if (!$pending == null){
-                    $quantity = $quantity - $pending;
-                }
+            $data = [
+                'qcs' => 'qcs',
+                'grn_subs' => $grn->qcs->map(function ($qc) {
+                    $quantity = $qc->quantity;
+                    $pending = $qc->pending_qty;
 
-                return [
-                    'item_id' => $sub->item_id,
-                    'item_name' => $sub->item->title ?? 'Unknown',
-                    'quantity' => $quantity - $pending,
-                ];
-            }),
-        ];
+                    if (!is_null($pending)) {
+                        $quantity -= $pending;
+                    }
+
+                    return [
+                        'item_id' => $qc->item_id,
+                        'item_name' => $qc->item->title ?? 'Unknown',
+                        'quantity' => $quantity,
+                    ];
+                }),
+            ];
+        } else {
+            $data = [
+                'grnSub' => 'grnSub',
+                'grn_subs' => $grn->grnSubs->map(function ($sub) {
+                    $quantity = $sub->quantity;
+                    $pending = $sub->pending;
+
+                    if (!is_null($pending)) {
+                        $quantity -= $pending;
+                    }
+
+                    return [
+                        'item_id' => $sub->item_id,
+                        'item_name' => $sub->item->title ?? 'Unknown',
+                        'quantity' => $quantity,
+                    ];
+                }),
+            ];
+        }
+
 
         return response()->json([
             'status' => 200,
@@ -81,9 +101,9 @@ class QcController extends Controller
             }
 
             foreach ($validated['items'] as $item) {
-                $sub = $grn->grnSubs()->firstOrNew(['item_id' => $item['item_id']]);
+                $sub = $grn->qcs()->firstOrNew(['item_id' => $item['item_id']]);
 
-                // $sub->quantity = $item['quantity'];
+                $sub->quantity = $item['quantity'];
 
                 $sub->accepted_qty = ($sub->accepted_qty ?? 0) + $item['accepted'];
                 $sub->rejected_qty = ($sub->rejected_qty ?? 0) + $item['rejected'];
@@ -91,11 +111,13 @@ class QcController extends Controller
                 $pending = $sub->quantity - ($sub->accepted_qty + $sub->rejected_qty);
                 $sub->pending_qty = max(0, $pending);
 
+                $sub->employee_id = auth()->guard('employee')->id();
+
                 $sub->save();
             }
 
 
-            $totalPending = $grn->grnSubs()->sum('pending_qty');
+            $totalPending = $grn->qcs()->sum('pending_qty');
 
             if ($totalPending == 0) {
                 $grn->qc_status = 1;

@@ -33,6 +33,7 @@ class GrnController extends Controller
             $grn->invoice_date = $request->invoicedate;
             $grn->location_id = $request->location_id;
             $grn->remarks = $request->remarks;
+            $grn->quantity = $request->total_barcode;
             $grn->status = 0;
             $grn->employee_id = auth()->guard('employee')->id();
 
@@ -138,6 +139,7 @@ class GrnController extends Controller
             $grn->invoice_date = $request->invoicedate;
             $grn->location_id = $request->location_id;
             $grn->remarks = $request->remarks;
+
             $grn->status = 0;
             $grn->employee_id = auth()->guard('employee')->id();
 
@@ -155,7 +157,7 @@ class GrnController extends Controller
                 $grnSub->item_id = $item['item_id'];
                 $grnSub->quantity = $item['quantity'];
                 $grnSub->barcodes = $item['barcodes'];
-                $grnSub->scanned_qty = 0;
+                $grnSub->accepted_qty = 0;
                 $grnSub->rejected_qty = 0;
                 $grnSub->status = 0;
                 $grnSub->employee_id = auth()->guard('employee')->id();

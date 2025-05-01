@@ -160,18 +160,24 @@
             const quantity = parseInt(quantityInput.value) || 0;
             const amount = parseInt(amountInput.value) || 0;
 
-            // Basic validation
             if (!itemId || quantity <= 0) {
-                alert("Please select an item and enter a valid quantity.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Invalid Input',
+                    text: 'Please select an item and enter a valid quantity.'
+                });
                 return;
             }
 
-            // Check for duplicate item
             const existingRows = gridBody.querySelectorAll('tr');
             for (let row of existingRows) {
                 const existingItemId = row.querySelector('input[name*="[item_id]"]').value;
                 if (existingItemId === itemId) {
-                    alert("This item is already added to the grid.");
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Duplicate Item',
+                        text: 'This item is already added to the grid.'
+                    });
                     return;
                 }
             }
@@ -192,14 +198,12 @@
 
             gridBody.appendChild(newRow);
 
-            // Clear inputs
             itemSelect.selectedIndex = 0;
             amountInput.value = '';
             quantityInput.value = '';
             totalAmountInput.value = '';
         });
 
-        // Remove row and update total barcode
         gridBody.addEventListener('click', function (e) {
             if (e.target && e.target.classList.contains('remove-row')) {
                 const row = e.target.closest('tr');
@@ -209,11 +213,9 @@
 
                 row.remove();
 
-                // Re-index serial numbers and input names
                 Array.from(gridBody.children).forEach((row, index) => {
-                    row.children[0].textContent = index + 1; // Update serial number
+                    row.children[0].textContent = index + 1;
 
-                    // Update name attributes
                     row.querySelectorAll('input').forEach(input => {
                         if (input.name.includes('[item_id]')) {
                             input.name = `items[${index + 1}][item_id]`;
@@ -231,13 +233,16 @@
             }
         });
 
-
         form.addEventListener('submit', function (e) {
             const gridHasRows = gridBody.querySelectorAll('tr').length > 0;
 
             if (!gridHasRows) {
                 e.preventDefault();
-                alert("Please add at least one item to the grid before submitting.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Empty Grid',
+                    text: 'Please add at least one item to the grid before submitting.'
+                });
             }
         });
     });
