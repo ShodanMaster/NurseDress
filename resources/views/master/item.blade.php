@@ -73,7 +73,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="item" class="form-label">Item</label>
-                            <input type="text" class="form-control" name="item" id="item" placeholder="Enter Item" required>
+                            <input type="text" class="form-control" name="item" id="item" placeholder="Enter Item" required autofocus>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -165,7 +165,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="item" class="form-label">Item</label>
-                            <input type="text" class="form-control" name="item" id="edit-item" placeholder="Enter item" required>
+                            <input type="text" class="form-control" name="item" id="edit-item" placeholder="Enter item" required autofocus>
                         </div>
                     </div>
                     <div class="col-md-6">

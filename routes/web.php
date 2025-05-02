@@ -9,6 +9,7 @@ use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Master\SizeController;
+use App\Http\Controllers\Master\UserController;
 use App\Http\Controllers\RejectionController;
 use App\Http\Controllers\Transaction\QcController;
 use App\Http\Controllers\Transaction\StorageController;
@@ -68,6 +69,12 @@ Route::middleware('auth')->group(function () {
         Route::post('store-employee', [EmployeeController::class, 'store'])->name('storeemployee');
         Route::post('update-employee', [EmployeeController::class, 'update'])->name('updateemployee');
         Route::post('delete-employee', [EmployeeController::class, 'delete'])->name('deleteemployee');
+
+        Route::get('user', [UserController::class, 'index'])->name('user');
+        Route::get('get-users', [UserController::class, 'getUsers'])->name('getusers');
+        Route::post('store-user', [UserController::class, 'store'])->name('storeuser');
+        Route::post('update-user', [UserController::class, 'update'])->name('updateuser');
+        Route::post('delete-user', [UserController::class, 'delete'])->name('deleteuser');
     });
 
     Route::prefix('transaction')->name('transaction.')->group(function(){

@@ -2,15 +2,15 @@
 
 @section('content')
 
-<!-- Add Employee Modal -->
-<div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="addEmployeeModalLabel">Add Employee</h5>
+          <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="employeeForm">
+        <form id="userForm">
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
@@ -26,7 +26,7 @@
                                 <select class="form-control" name="type" id="type" required>
                                     <option value="" selected disabled>Select Type</option>
                                     <option value="admin">Admin</option>
-                                    <option value="user">Employee</option>
+                                    <option value="user">User</option>
                                 </select>
                             </div>
                         </div>
@@ -65,15 +65,15 @@
     </div>
 </div>
 
-<!-- Edit Employee Modal -->
-<div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="editEmployeeModalLabel">Edit Employee</h5>
+          <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="employeeEditForm">
+        <form id="userEditForm">
             <input type="hidden" name="id" id="edit-id">
             <div class="modal-body">
                 <div class="row">
@@ -90,7 +90,7 @@
                                 <select class="form-control" name="type" id="edit-type" required>
                                     <option value="" selected disabled>Select Type</option>
                                     <option value="admin">Admin</option>
-                                    <option value="employee">Employee</option>
+                                    <option value="user">User</option>
                                 </select>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Update Employee</button>
+                <button type="submit" class="btn btn-primary">Update User</button>
             </div>
         </form>
       </div>
@@ -141,23 +141,23 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="m-0">Employee Master</h1>
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
-                <i class="fas fa-plus"></i> Add Employee
+            <h1 class="m-0">User Master</h1>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                <i class="fas fa-plus"></i> Add User
             </button>
         </div>
     </div>
 </div>
 
-<!-- Employee Table Card -->
+<!-- User Table Card -->
 <section class="content">
     <div class="container-fluid">
         <div class="card card-primary card-outline">
             <div class="card-header">
-                <h3 class="card-title">Employee Table</h3>
+                <h3 class="card-title">User Table</h3>
             </div>
             <div class="card-body">
-                <table id="employeeTable" class="table table-bordered table-striped">
+                <table id="userTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -199,10 +199,10 @@
 
     $(document).ready( function () {
 
-        var table = $('#employeeTable').DataTable({
+        var table = $('#userTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('master.getemployees')}}",
+            ajax: "{{route('master.getusers')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {data : 'username'},
@@ -211,7 +211,7 @@
             ],
         });
 
-        $(document).on('submit','#employeeForm', function (e) {
+        $(document).on('submit','#userForm', function (e) {
 
             e.preventDefault();
 
@@ -221,7 +221,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('master.storeemployee') }}",
+                url: "{{ route('master.storeuser') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -237,10 +237,10 @@
                         });
 
                         // Reset form
-                        $('#employeeForm')[0].reset();
+                        $('#userForm')[0].reset();
 
                         // Properly hide the Bootstrap modal
-                        $('#addEmployeeModal').modal('hide');
+                        $('#addUserModal').modal('hide');
 
                     } else {
                         Swal.fire({
@@ -263,7 +263,7 @@
 
         });
 
-        $('#editEmployeeModal').on('show.bs.modal', function (event) {
+        $('#editUserModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var editId = button.data('id');
             var editTitle = button.data('username');
@@ -276,14 +276,14 @@
 
         });
 
-        $(document).on('submit', '#employeeEditForm', function (e) {
+        $(document).on('submit', '#userEditForm', function (e) {
             e.preventDefault();
 
             var formData = new FormData(this);
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('master.updateemployee') }}",
+                url: "{{ route('master.updateuser') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -297,8 +297,8 @@
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'OK'
                         });
-                        $('#employeeEditForm')[0].reset();
-                        $('#editEmployeeModal').modal('hide');
+                        $('#userEditForm')[0].reset();
+                        $('#editUserModal').modal('hide');
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -340,7 +340,7 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('master.deleteemployee') }}",
+                        url: "{{ route('master.deleteuser') }}",
                         data: formData,
                         processData: false,
                         contentType: false,

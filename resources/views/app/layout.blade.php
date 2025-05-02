@@ -220,6 +220,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('master.user') }}" class="nav-link {{ request()->routeIs('master.user') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>User</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('master.employee') }}" class="nav-link {{ request()->routeIs('master.employee') ? 'active' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Employee</p>
@@ -853,7 +859,7 @@
 
 
 <script>
-    
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

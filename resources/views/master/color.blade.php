@@ -14,7 +14,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="color" class="form-label">Color</label>
-                    <input type="text" class="form-control" name="color" id="color" placeholder="Enter Color" required>
+                    <input type="text" class="form-control" name="color" id="color" placeholder="Enter Color" required autofocus>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -39,7 +39,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="color" class="form-label">Color</label>
-                    <input type="text" class="form-control" name="color" id="edit-color" placeholder="Enter Color" required>
+                    <input type="text" class="form-control" name="color" id="edit-color" placeholder="Enter Color" required autofocus>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">

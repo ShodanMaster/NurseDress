@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('password');
-            $table->enum('type', ['admin', 'employee']);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group">
                     <label for="bin" class="form-label">Bin</label>
-                    <input type="text" class="form-control" name="bin" id="bin" placeholder="Enter bin" required>
+                    <input type="text" class="form-control" name="bin" id="bin" placeholder="Enter bin" required autofocus>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">

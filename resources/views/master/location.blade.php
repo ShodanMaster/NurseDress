@@ -14,7 +14,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="location" class="form-label">Location</label>
-                    <input type="text" class="form-control" name="location" id="location" placeholder="Enter location" required>
+                    <input type="text" class="form-control" name="location" id="location" placeholder="Enter location" required autofocus>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -39,7 +39,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="location" class="form-label">Location</label>
-                    <input type="text" class="form-control" name="location" id="edit-location" placeholder="Enter location" required>
+                    <input type="text" class="form-control" name="location" id="edit-location" placeholder="Enter location" required autofocus>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
