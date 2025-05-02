@@ -55,7 +55,7 @@ class GrnController extends Controller
                 $grnSub->save();
 
                 $barcodes = $item['barcodes'];
-                $total_price = (int)$item['quantity'] * (int)$item['amount'];
+                // $total_price = (int)$item['quantity'] * (int)$item['amount'];
                 while ($barcodes--){
                     $nextBarcode  = Barcode::nextNumber();
 
@@ -115,6 +115,7 @@ class GrnController extends Controller
                 return [
                     'item_id' => $sub->item_id,
                     'item_name' => $sub->item->title ?? 'Unknown',
+                    'amount' => $sub->item->amount,
                     'quantity' => $sub->quantity,
                 ];
             }),
@@ -140,7 +141,7 @@ class GrnController extends Controller
             $grn->invoice_date = $request->invoicedate;
             $grn->location_id = $request->location_id;
             $grn->remarks = $request->remarks;
-
+            $grn->quantity = $request->barcodes;
             $grn->status = 0;
             $grn->user_id = Auth::id();
 

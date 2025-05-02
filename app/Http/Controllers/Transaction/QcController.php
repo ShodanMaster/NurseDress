@@ -102,8 +102,10 @@ class QcController extends Controller
 
             foreach ($validated['items'] as $item) {
                 $sub = $grn->qcs()->firstOrNew(['item_id' => $item['item_id']]);
-
-                $sub->quantity = $item['quantity'];
+                // dd($sub->quantity);
+                if ($sub->quantity == null) {
+                    $sub->quantity = $item['quantity'];
+                }
 
                 $sub->accepted_qty = ($sub->accepted_qty ?? 0) + $item['accepted'];
                 $sub->rejected_qty = ($sub->rejected_qty ?? 0) + $item['rejected'];

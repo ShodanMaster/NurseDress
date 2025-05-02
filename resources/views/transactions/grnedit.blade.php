@@ -150,6 +150,7 @@
 
 @section('script')
 <script>
+
     $(document).ready(function () {
 
         $(document).on('change', '#grn-number', function () {
@@ -175,6 +176,7 @@
                         let rowCount = 0;
                         let totalBarcodes = 0;
 
+
                         data.grn_subs.forEach((sub, index) => {
                             rowCount++;
                             const quantity = sub.quantity || 0;
@@ -183,16 +185,16 @@
 
                             totalBarcodes += quantity;
 
-                            const newRow = `
-                                <tr>
+                            const newRow =
+                                `<tr>
                                     <td>${rowCount}</td>
                                     <td>${sub.item_name}<input type="hidden" name="items[${rowCount}][item_id]" value="${sub.item_id}"></td>
                                     <td><input class="form-control" type="number" name="items[${rowCount}][quantity]" value="${quantity}"></td>
                                     <td>${quantity}<input type="hidden" name="items[${rowCount}][barcodes]" value="${quantity}"></td>
                                     <input type="hidden" name="items[${rowCount}][amount]" value="${amount}">
                                     <td><button type="button" class="btn btn-danger btn-sm remove-row">Remove</button></td>
-                                </tr>
-                            `;
+                                </tr>`
+                            ;
                             gridBody.append(newRow);
                         });
 
@@ -215,12 +217,15 @@
         const addToGridButton = document.getElementById('add-to-grid');
         const gridBody = document.getElementById('grngridbody');
         const form = document.getElementById('grn-form');
+        // let rowCount = 0;
+        let rowCount = document.getElementById('grngrid').rows.length - 1;
+
+        let totalBarcodes = totalBarcodeInput.value || 0;
 
         function updateAmountAndTotal() {
             const selectedOption = itemSelect.options[itemSelect.selectedIndex];
             const amount = parseFloat(selectedOption.getAttribute('data-amount')) || 0;
             const quantity = parseInt(quantityInput.value) || 0;
-
             amountInput.value = amount;
             totalAmountInput.value = (amount * quantity).toFixed(2);
         }
@@ -228,8 +233,15 @@
         itemSelect.addEventListener('change', updateAmountAndTotal);
         quantityInput.addEventListener('input', updateAmountAndTotal);
 
-        let rowCount = 0;
-        let totalBarcodes = 0;
+        function updateTotalBarcodes() {
+            totalBarcodes = 0;
+            const rows = gridBody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const quantity = parseInt(row.querySelector('[name*="[quantity]"]').value) || 0;
+                totalBarcodes += quantity;
+            });
+            totalBarcodeInput.value = totalBarcodes;
+        }
 
         addToGridButton.addEventListener('click', function () {
             const selectedOption = itemSelect.options[itemSelect.selectedIndex];
@@ -237,6 +249,7 @@
             const itemName = selectedOption.text;
             const quantity = parseInt(quantityInput.value) || 0;
             const amount = parseInt(amountInput.value) || 0;
+            let rowCount = document.getElementById('grngrid').rows.length - 1;
 
             if (!itemId || quantity <= 0) {
                 Swal.fire({
@@ -261,9 +274,6 @@
             }
 
             rowCount++;
-            totalBarcodes += quantity;
-            totalBarcodeInput.value = totalBarcodes;
-
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
                 <td>${rowCount}</td>
@@ -273,13 +283,31 @@
                 <input type="hidden" name="items[${rowCount}][amount]" value="${amount}">
                 <td><button type="button" class="btn btn-danger btn-sm remove-row">Remove</button></td>
             `;
-
             gridBody.appendChild(newRow);
 
             itemSelect.selectedIndex = 0;
             amountInput.value = '';
             quantityInput.value = '';
             totalAmountInput.value = '';
+
+            updateTotalBarcodes();
+        });
+
+        gridBody.addEventListener('input', function (e) {
+            if (e.target && e.target.name.includes('[quantity]')) {
+                let totalBarcodes = parseInt(totalBarcodeInput.value) || 0;
+                const row = e.target.closest('tr');
+                const quantity = parseInt(e.target.value) || 0;
+                const existingQuantity = parseInt(row.querySelector('[name*="[barcodes]"]').value) || 0;
+
+                row.querySelector('[name*="[barcodes]"]').value = quantity;
+                // console.log(totalBarcodes, existingQuantity, quantity);
+
+                totalBarcodes -= existingQuantity;
+                totalBarcodes += quantity;
+
+                totalBarcodeInput.value = totalBarcodes;
+            }
         });
 
         gridBody.addEventListener('click', function (e) {
@@ -295,15 +323,18 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const row = e.target.closest('tr');
-                        const removedBarcodes = parseInt(row.children[3].textContent) || 0;
-                        totalBarcodes -= removedBarcodes;
-                        totalBarcodeInput.value = totalBarcodes;
+                        const removedBarcodes = parseInt(row.querySelector('[name*="[barcodes]"]').value) || 0;
+                        const totalBarcodeInput = document.getElementById('total-barcode').value;
+                        let totalBarcodes = parseInt(totalBarcodeInput) || 0;
+                        // console.log(totalBarcodeInput, removedBarcodes);
 
+                        totalBarcodes -= removedBarcodes;
                         row.remove();
+
+                        document.getElementById('total-barcode').value = totalBarcodes;
 
                         Array.from(gridBody.children).forEach((row, index) => {
                             row.children[0].textContent = index + 1;
-
                             row.querySelectorAll('input').forEach(input => {
                                 if (input.name.includes('[item_id]')) {
                                     input.name = `items[${index + 1}][item_id]`;

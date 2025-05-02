@@ -19,9 +19,14 @@
   <link rel="stylesheet" href="{{asset('adminasset\plugins\sweetalert2\sweetalert2.min.css')}}">
   {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> --}}
 
+  <link rel="stylesheet" href="{{asset('adminasset\plugins\select2\css\select2.css')}}">
+  <link rel="stylesheet" href="{{asset('adminasset\plugins\select2\css\select2.min.css')}}">
+
   <link rel="stylesheet" href="{{ asset('adminasset/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('adminasset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('adminasset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('adminasset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('adminasset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+
 </head>
 <!--
 `body` tag options:
@@ -253,7 +258,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('transaction.rejection')}}" class="nav-link {{ request()->routeIs('transaction.qc') ? 'active' : '' }}" class="nav-link">
+                <a href="{{route('transaction.storage')}}" class="nav-link {{ request()->routeIs('transaction.storage') ? 'active' : '' }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Storage Scan</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('transaction.rejection')}}" class="nav-link {{ request()->routeIs('transaction.rejection') ? 'active' : '' }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Rejection Scan</p>
                 </a>
@@ -832,14 +843,17 @@
 <script src="{{asset('adminasset\plugins\sweetalert2\sweetalert2.js')}}"></script>
 <script src="{{asset('adminasset\plugins\sweetalert2\sweetalert2.min.js')}}"></script>
 
+<script src="{{asset('adminasset\plugins\select2\js\select2.full.js')}}"></script>
+<script src="{{asset('adminasset\plugins\select2\js\select2.full.min.js')}}"></script>
+<script src="{{asset('adminasset\plugins\select2\js\select2.js')}}"></script>
+<script src="{{asset('adminasset\plugins\select2\js\select2.min.js')}}"></script>
+
+{{-- <script src="{{asset('adminasset\plugins\select2-bootstrap4-theme\select2-bootstrap4.css')}}"></script>
+<script src="{{asset('adminasset\plugins\select2-bootstrap4-theme\select2-bootstrap4.min.css')}}"></script> --}}
+
 
 <script>
-    $(document).ready(function() {
-        if (window.location.href.indexOf("master") > -1) {
-            $(".nav-item.menu-open").addClass("menu-open");  // Ensure the 'Masters' menu is open
-            $(".nav-link.active").closest(".nav-item").addClass("menu-open");
-        }
-    });
+    
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -9,6 +9,7 @@ use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Master\SizeController;
+use App\Http\Controllers\RejectionController;
 use App\Http\Controllers\Transaction\QcController;
 use App\Http\Controllers\Transaction\StorageController;
 use App\Http\Controllers\Transaction\GrnController;
@@ -81,7 +82,10 @@ Route::middleware('auth')->group(function () {
         Route::post('qc-store', [QcController::class, 'store'])->name('qcstore');
         Route::get('fetch-grnitem', [QcController::class, 'fetchItem'])->name('fetchitem');
 
-        Route::get('rejection', [StorageController::class, 'rejection'])->name('rejection');
+        Route::get('storage', [StorageController::class, 'index'])->name('storage');
+        Route::post('storage-scan', [StorageController::class, 'store'])->name('storagescan');
+        Route::get('rejection', [RejectionController::class, 'index'])->name('rejection');
+        Route::get('fetch-bin', [StorageController::class, 'fetchBin'])->name('fetchbin');
         // Route::post('qc-store', [StorageController::class, 'store'])->name('qcstore');
 
     });

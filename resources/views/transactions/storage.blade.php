@@ -5,13 +5,13 @@
     <div class="container-fluid">
         <div class="card mt-3">
             <div class="card-header">
-                <h3 class="card-title">Rejection Scan</h3>
+                <h3 class="card-title">Storage Scan</h3>
             </div>
             <form>
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="grnNumber_id" class="form-label">grnNumber ID</label>
+                        <label for="grn_number" class="form-label">grnNumber ID</label>
                         <select class="form-control" name="grn_number" id="grn_number">
                             <option value="">Select GRN Number</option>
                             @foreach($grnNumbers as $grnNumber)
@@ -42,14 +42,15 @@
     const barcodeInput = document.getElementById("barcode");
         barcodeInput.addEventListener("input", function() {
 
-            console.log(this.value);
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('transaction.qcstore') }}",
+                url: "{{ route('transaction.storagescan') }}",
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    "barcode": this.value
+                    "barcode": this.value,
+                    "bin": document.getElementById('bin').value,
+                    "grn_number": document.getElementById('grn_number').value,
                 },
                 dataType: "json",
                 success: function (response) {
