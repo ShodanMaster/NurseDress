@@ -204,7 +204,8 @@
             <div class="card-header">
                 <h3 class="card-title">Item Table</h3>
             </div>
-            <div class="card-body">
+            {{-- <div class="card-body table-responsive"> --}}
+            <div class="card-body table-responsive">
                 <table id="itemTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
