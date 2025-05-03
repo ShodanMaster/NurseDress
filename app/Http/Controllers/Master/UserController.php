@@ -22,8 +22,8 @@ class UserController extends Controller
             ->addIndexColumn()
 
             ->addColumn('action', function ($row){
-                return '<a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id='. encrypt($row->id).' data-username="' . $row->name .'" data-type="' . $row->type .'"  data-bs-toggle="modal" data-bs-target="#editUserModal">Edit</a>
-                        <a href="javascript:void(0)" class="btn btn-danger btn-sm deleteButton" data-id="'. encrypt($row->id) .'" data-username="'. $row->name .'">Delete</a>
+                return '<a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id='. encrypt($row->id).' data-username="' . $row->username .'" data-type="' . $row->type .'"  data-bs-toggle="modal" data-bs-target="#editUserModal">Edit</a>
+                        <a href="javascript:void(0)" class="btn btn-danger btn-sm deleteButton" data-id="'. encrypt($row->id) .'" data-username="'. $row->username .'">Delete</a>
                 ';
             })
             ->make(true);
@@ -36,7 +36,7 @@ class UserController extends Controller
             $request->validate([
                 'username' => 'required|max:255,unique:userss',
                 'password' => 'required|min:8|confirmed',
-                'type' => 'required|in:admin,users',
+                'type' => 'required|in:admin,user',
             ]);
 
             User::create([

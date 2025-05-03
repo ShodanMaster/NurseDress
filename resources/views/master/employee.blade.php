@@ -15,19 +15,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" required autofocus>
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" required autofocus>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="label">
-                                <label for="type" class="form-label">Type</label>
-                                <select class="form-control" name="type" id="type" required>
-                                    <option value="" selected disabled>Select Type</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="user">Employee</option>
-                                </select>
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter phone" required>
                             </div>
                         </div>
                     </div>
@@ -35,23 +31,16 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" required autofocus>
-
-                            <div class="form-check mt-2">
-                                <input class="form-check-input" type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
-                                <label class="form-check-label" for="showPassword">
-                                    Show Password
-                                </label>
+                            <div class="label">
+                                <label for="company" class="form-label">Company</label>
+                                <input type="text" class="form-control" name="company" id="company" placeholder="Enter company">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <div class="label">
-                                <label for="repassword" class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password_confirmation" id="repassword" placeholder="Comfirm password" required>
-                            </div>
+                            <label for="vehicle_number" class="form-label">Vehicle Number</label>
+                            <input type="text" class="form-control" name="vehicle_number" id="vehicle_number" placeholder="Enter vehicle number">
                         </div>
                     </div>
                 </div>
@@ -79,51 +68,32 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" name="username" id="edit-username" placeholder="Enter username" required>
+                            <label for="edit-name" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" id="edit-name" placeholder="Enter name" required autofocus>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="label">
-                                <label for="type" class="form-label">Type</label>
-                                <select class="form-control" name="type" id="edit-type" required>
-                                    <option value="" selected disabled>Select Type</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="employee">Employee</option>
-                                </select>
+                                <label for="edit-phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" name="phone" id="edit-phone" placeholder="Enter phone" required>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="changePasswordCheckbox" onclick="togglePasswordFields()">
-                            <label class="form-check-label" for="changePasswordCheckbox">
-                                Change Password
-                            </label>
-                        </div>
-                    </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="edit-password" class="form-label">Password</label>
-                            <input type="password" class="form-control" name="password" id="edit-password" placeholder="Enter password" disabled>
-
-                            <div class="form-check mt-2">
-                                <input class="form-check-input" type="checkbox" id="edit-showPassword" onclick="togglePasswordEditVisibility()" disabled>
-                                <label class="form-check-label" for="edit-showPassword">
-                                    Show Password
-                                </label>
+                            <div class="label">
+                                <label for="edit-company" class="form-label">Company</label>
+                                <input type="text" class="form-control" name="company" id="edit-company" placeholder="Enter company">
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="edit-repassword" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" name="password_confirmation" id="edit-repassword" placeholder="Confirm password" disabled>
+                            <label for="edit-vehicle_number" class="form-label">Vehicle Number</label>
+                            <input type="text" class="form-control" name="vehicle_number" id="edit-vehicle_number" placeholder="Enter vehicle number">
                         </div>
                     </div>
                 </div>
@@ -161,8 +131,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>User Name</th>
-                            <th>User Type</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Company</th>
+                            <th>Vehicle Number</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -205,8 +177,10 @@
             ajax: "{{route('master.getemployees')}}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                {data : 'username'},
-                {data : 'type'},
+                {data : 'name'},
+                {data : 'phone'},
+                {data : 'company'},
+                {data : 'vehicle_number'},
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
         });
@@ -266,13 +240,17 @@
         $('#editEmployeeModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var editId = button.data('id');
-            var editTitle = button.data('username');
-            var editType = button.data('type');
+            var editName = button.data('name');
+            var editPhone = button.data('phone');
+            var editCompany = button.data('company');
+            var editVehicleNumber = button.data('vehicle_number');
 
             var modal = $(this);
             modal.find('#edit-id').val(editId);
-            modal.find('#edit-username').val(editTitle);
-            modal.find('#edit-type').val(editType);
+            modal.find('#edit-name').val(editName);
+            modal.find('#edit-phone').val(editPhone);
+            modal.find('#edit-company').val(editCompany);
+            modal.find('#edit-vehicle_number').val(editVehicleNumber);
 
         });
 

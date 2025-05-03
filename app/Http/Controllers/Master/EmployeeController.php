@@ -24,9 +24,21 @@ class EmployeeController extends Controller
             ->addIndexColumn()
 
             ->addColumn('action', function ($row){
-                return '<a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id='. encrypt($row->id).' data-username="' . $row->name .'" data-type="' . $row->type .'"  data-bs-toggle="modal" data-bs-target="#editEmployeeModal">Edit</a>
-                        <a href="javascript:void(0)" class="btn btn-danger btn-sm deleteButton" data-id="'. encrypt($row->id) .'" data-username="'. $row->name .'">Delete</a>
-                ';
+                return '<a href="javascript:void(0)"
+                            class="btn btn-info btn-sm editButton"
+                            data-id="' . encrypt($row->id) . '"
+                            data-name="' . $row->name . '"
+                            data-phone="' . $row->phone . '"
+                            data-company="' . $row->company . '"
+                            data-vehicle_number="' . $row->vehicle_number . '"
+                            data-type="' . $row->type . '"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editEmployeeModal">Edit</a>
+                        <a href="javascript:void(0)"
+                            class="btn btn-danger btn-sm deleteButton"
+                            data-id="' . encrypt($row->id) . '"
+                            data-name="' . $row->name . '">Delete</a>';
+
             })
             ->make(true);
         }
@@ -36,15 +48,17 @@ class EmployeeController extends Controller
         try{
 
             $request->validate([
-                'username' => 'required|max:255,unique:employees',
-                'password' => 'required|min:8|confirmed',
-                'type' => 'required|in:admin,employee',
+                'name' => 'required|max:255',
+                'phone' => 'required|max:255,unique:employees',
+                'company' => 'nullable',
+                'vehicle_number' => 'nullable',
             ]);
 
             Employee::create([
-                'username' => $request->username,
-                'password' => bcrypt($request->password),
-                'type' => $request->type,
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'company' => $request->company,
+                'vehicle_number' => $request->vehicle_number,
             ]);
 
             return response()->json([
