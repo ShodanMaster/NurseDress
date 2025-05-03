@@ -51,8 +51,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer d-flex justify-content-end">
-                    <button class="btn btn-primary">Login</button>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6 d-flex justify-content-start">
+                            <div class="form-check mb-0">
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                                <label class="form-check-label" for="remember">Remember Me</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
