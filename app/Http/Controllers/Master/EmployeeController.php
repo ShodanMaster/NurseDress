@@ -85,23 +85,22 @@ class EmployeeController extends Controller
         // dd($request->all());
         try{
             $request->validate([
-                'username' => 'required|max:255,unique:employees',
-                'password' => 'nullable|min:8|confirmed',
-                'type' => 'required|in:admin,employee',
+                'name' => 'required|max:255',
+                'phone' => 'required|max:255,unique:employees',
+                'company' => 'nullable',
+                'vehicle_number' => 'nullable',
             ]);
 
             $employee = Employee::find(decrypt($request->id));
 
             if($employee){
 
-                $employee->username = $request->username;
-
-                $employee->type = $request->type;
-
-
-                if($request->password){
-                    $employee->password = $request->password;
-                }
+                $employee->update([
+                    'name' => $request->name,
+                    'phone' => $request->phone,
+                    'company' => $request->company,
+                    'vehicle_number' => $request->vehicle_number,
+                ]);
 
                 $employee->save();
             }
