@@ -15,7 +15,7 @@
                         <select class="form-control" name="grn_number" id="grn_number">
                             <option value="">Select GRN Number</option>
                             @foreach($grnNumbers as $grnNumber)
-                                <option value="{{ $grnNumber->id }}">{{ $grnNumber->grn_no }}</option>
+                                <option value="{{ $grnNumber->id }}">{{ $grnNumber->grn_number }}</option>
                             @endforeach
                         </select>
                     </div>

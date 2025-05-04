@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
@@ -34,4 +35,9 @@ class Barcode extends Model
 
         return $barcode[0]->barcode;
     }
+
+    public function item(){
+        return $this->belongsTo(Item::class);
+    }
+
 }

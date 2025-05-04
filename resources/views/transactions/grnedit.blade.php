@@ -17,7 +17,7 @@
                                 <select class="form-control" name="grnnumber" id="grn-number" required>
                                     <option value="" selected disabled>--Select GRN Number--</option>
                                     @forelse ($grnNumbers as $grnNumber)
-                                        <option value="{{ $grnNumber->id }}">{{ $grnNumber->grn_no }}</option>
+                                        <option value="{{ $grnNumber->id }}">{{ $grnNumber->grn_number }}</option>
                                     @empty
                                         <option value="" disabled>No GRN Numbers</option>
                                     @endforelse

@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('storage_scans', function (Blueprint $table) {
             $table->id();
+            $table->string('barcode');
+            $table->foreignId('grn_id')->constrained('grns');
+            $table->foreignId('bin_id')->constrained('bins');
+            $table->foreignId('item_id')->constrained('items');
+            $table->integer('scanned_quantity')->default(1);
+            $table->timestamp('scanned_time')->useCurrent();
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

@@ -29,7 +29,7 @@ class GrnController extends Controller
             $grnNumber = Grn::nextNumber();
 
             $grn = new Grn();
-            $grn->grn_no = $grnNumber;
+            $grn->grn_number = $grnNumber;
             $grn->invoice_no = $request->invoiceno;
             $grn->invoice_date = $request->invoicedate;
             $grn->location_id = $request->location_id;
@@ -80,7 +80,7 @@ class GrnController extends Controller
         }
 
         DB::commit();
-        flash()->success("GRN Entry Successful: ".$grn->grn_no);
+        flash()->success("GRN Entry Successful: ".$grn->grn_number);
         return redirect()->back();
     }
 
@@ -192,7 +192,7 @@ class GrnController extends Controller
         }
 
         DB::commit();
-        flash()->success("GRN Update Successful: ".$grn->grn_no);
+        flash()->success("GRN Update Successful: ".$grn->grn_number);
         return redirect()->back();
     }
 }

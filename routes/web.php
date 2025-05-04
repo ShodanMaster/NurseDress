@@ -91,6 +91,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('storage', [StorageController::class, 'index'])->name('storage');
         Route::post('storage-scan', [StorageController::class, 'store'])->name('storagescan');
+        
         Route::get('rejection', [RejectionController::class, 'index'])->name('rejection');
         Route::get('fetch-bin', [StorageController::class, 'fetchBin'])->name('fetchbin');
         // Route::post('qc-store', [StorageController::class, 'store'])->name('qcstore');
