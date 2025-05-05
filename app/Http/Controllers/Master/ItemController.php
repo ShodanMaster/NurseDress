@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Exports\ItemsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Item;
 use App\Models\Size;
@@ -9,6 +10,7 @@ use App\Models\Color;
 use App\Models\Design;
 use Exception;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class ItemController extends Controller
@@ -163,5 +165,9 @@ class ItemController extends Controller
                 'message' => 'Something Went Wrong '. $e->getMessage(),
             ]);
         }
+    }
+
+    public function itemExcelExport(){
+        return Excel::download(new ItemsExport, 'items.xlsx');
     }
 }

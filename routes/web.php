@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::post('store-item', [ItemController::class, 'store'])->name('storeitem');
         Route::post('update-item', [ItemController::class, 'update'])->name('updateitem');
         Route::post('delete-item', [ItemController::class, 'delete'])->name('deleteitem');
+        Route::get('items-excel-export', [ItemController::class, 'itemExcelExport'])->name('itemexcelexport');
 
         Route::get('employee', [EmployeeController::class, 'index'])->name('employee');
         Route::get('get-employees', [EmployeeController::class, 'getEmployees'])->name('getemployees');
