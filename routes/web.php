@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::post('store-bin', [BinController::class, 'store'])->name('storebin');
         Route::post('update-bin', [BinController::class, 'update'])->name('updatebin');
         Route::post('delete-bin', [BinController::class, 'delete'])->name('deletebin');
+        Route::get('bins-excel-export', [BinController::class, 'binExcelExport'])->name('binexcelexport');
 
         Route::get('item', [ItemController::class, 'index'])->name('item');
         Route::get('get-items', [ItemController::class, 'getItems'])->name('getitems');

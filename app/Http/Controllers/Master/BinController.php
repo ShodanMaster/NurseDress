@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Exports\BinsExport;
 use App\Http\Controllers\Controller;
 
 use App\Models\Bin;
 use App\Models\Location;
 use Exception;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class BinController extends Controller
@@ -127,5 +129,9 @@ class BinController extends Controller
                 'message' => 'Something Went Wrong '. $e->getMessage(),
             ]);
         }
+    }
+
+    public function binExcelExport(){
+        return Excel::download(new BinsExport, 'bins.xlsx');
     }
 }

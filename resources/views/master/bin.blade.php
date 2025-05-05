@@ -76,9 +76,14 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="m-0">Bin Master</h1>
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addBinModal">
-                <i class="fas fa-plus"></i> Add Bin
-            </button>
+            <div>
+                <button type="button" id="excelExport" class="btn btn-success btn-sm">
+                    <i class="fas fa-file-excel mr-1"></i>Excel
+                </button>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addBinModal">
+                    <i class="fas fa-plus"></i> Add Bin
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -275,6 +280,25 @@
                     });
                 }
             });
+        });
+
+        $(document).on('click', '#excelExport', function (e) {
+            e.preventDefault();
+
+            const $btn = $(this);
+            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Exporting...');
+
+            const url = "{{ route('master.binexcelexport') }}";
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', '');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            setTimeout(() => {
+                $btn.prop('disabled', false).html('<i class="fas fa-file-excel mr-1"></i>Excel');
+            }, 5000);
         });
     });
 
