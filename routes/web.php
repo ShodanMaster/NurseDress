@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::post('store-color', [ColorController::class, 'store'])->name('storecolor');
         Route::post('update-color', [ColorController::class, 'update'])->name('updatecolor');
         Route::post('delete-color', [ColorController::class, 'delete'])->name('deletecolor');
+        Route::get('colors-excel-export', [ColorController::class, 'colorExcelExport'])->name('colorexcelexport');
 
         Route::get('design', [DesignController::class, 'index'])->name('design');
         Route::get('get-designs', [DesignController::class, 'getDesigns'])->name('getdesigns');

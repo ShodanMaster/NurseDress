@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Exports\ColorsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Color;
 use Exception;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class ColorController extends Controller
@@ -114,5 +116,9 @@ class ColorController extends Controller
                 'message' => 'Something Went Wrong '. $e->getMessage(),
             ]);
         }
+    }
+
+    public function colorExcelExport(){
+        return Excel::download(new ColorsExport, 'colors.xlsx');
     }
 }
