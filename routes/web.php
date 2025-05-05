@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::post('store-size', [SizeController::class, 'store'])->name('storesize');
         Route::post('update-size', [SizeController::class, 'update'])->name('updatesize');
         Route::post('delete-size', [SizeController::class, 'delete'])->name('deletesize');
+        Route::get('sizes-excel-export', [SizeController::class, 'sizeExcelExport'])->name('sizeexcelexport');
 
         Route::get('color', [ColorController::class, 'index'])->name('color');
         Route::get('get-colors', [ColorController::class, 'getColors'])->name('getcolors');
@@ -91,7 +92,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('storage', [StorageController::class, 'index'])->name('storage');
         Route::post('storage-scan', [StorageController::class, 'store'])->name('storagescan');
-        
+
         Route::get('rejection', [RejectionController::class, 'index'])->name('rejection');
         Route::get('fetch-bin', [StorageController::class, 'fetchBin'])->name('fetchbin');
         // Route::post('qc-store', [StorageController::class, 'store'])->name('qcstore');
