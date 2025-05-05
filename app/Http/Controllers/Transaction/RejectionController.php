@@ -1,25 +1,26 @@
 <?php
+
 namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Transaction\StorageScanRequest;
+use App\Http\Requests\Transaction\RejectionScanRequest;
 use App\Models\Barcode;
 use App\Models\Bin;
 use App\Models\Grn;
 use App\Models\GrnSub;
 use App\Models\Qc;
-use App\Models\StorageScan;
+use App\Models\RejectionScan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
-class StorageController extends Controller
+class RejectionController extends Controller
 {
 
 
     public function index(){
         $grnNumbers = Grn::where('qc_status', 1)->get();
-        return view('transactions.storage',compact('grnNumbers'));
+        return view('transactions.rejection',compact('grnNumbers'));
     }
 
     public function fetchBin(Request $request){
@@ -39,7 +40,7 @@ class StorageController extends Controller
         ]);
     }
 
-    public function store(StorageScanRequest $request){
+    public function store(RejectionScanRequest $request){
 
         try {
             $validated = $request->validated();
@@ -58,11 +59,11 @@ class StorageController extends Controller
 
                 $grnSub = GrnSub::where('grn_id', $barcode->grn_id)
                                 ->where('item_id', $barcode->item_id)
-                                ->get();
+                                ->first();
 
                 $qc = Qc::where('grn_id', $barcode->grn_id)
                         ->where('item_id', $barcode->item_id)
-                        ->get();
+                        ->first();
 
                 if (!$grnSub || !$qc) {
                     return response()->json([
@@ -70,7 +71,7 @@ class StorageController extends Controller
                         'message' => 'GRN or QC data not found.'
                     ]);
                 }
-                
+
                 if ($grnSub->accepted_qty >= $qc->accepted_qty) {
                     return response()->json([
                         'status' => 422,
@@ -87,31 +88,28 @@ class StorageController extends Controller
                     ]);
                 }
 
-                $storageScan = new StorageScan();
-                $storageScan->barcode = $validated['barcode'];
-                $storageScan->grn_id = $validated['grn_number'];
-                $storageScan->bin_id = $bin->id;
-                $storageScan->item_id = $barcode->item_id;
-                $storageScan->scanned_quantity = 1;
-                $storageScan->user_id = Auth::id();
+                $rejectionScan = new RejectionScan();
+                $rejectionScan->barcode = $validated['barcode'];
+                $rejectionScan->grn_id = $validated['grn_number'];
+                $rejectionScan->bin_id = $bin->id;
+                $rejectionScan->item_id = $barcode->item_id;
+                $rejectionScan->scanned_quantity = 1;
+                $rejectionScan->user_id = Auth::id();
 
                 $grnSub->accepted_qty += 1;
 
-                if($grnSub->accepted_qty == $qc->accepted_qty && $grnSub->rejected_qty == $qc->rejected_qty){
-                    Grn::where('id', $barcode->grn_id);
-                }
                 $barcode->status = '1';
                 $barcode->qc_status = 1;
                 $barcode->save();
 
                 $grnSub->save();
-                $storageScan->save();
+                $rejectionScan->save();
 
                 DB::commit();
 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Storage Scan Successful',
+                    'message' => 'Rejection Scan Successful',
                 ]);
             }
 
