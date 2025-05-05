@@ -70,17 +70,18 @@ Route::middleware('auth')->group(function () {
         Route::post('delete-item', [ItemController::class, 'delete'])->name('deleteitem');
         Route::get('items-excel-export', [ItemController::class, 'itemExcelExport'])->name('itemexcelexport');
 
-        Route::get('employee', [EmployeeController::class, 'index'])->name('employee');
-        Route::get('get-employees', [EmployeeController::class, 'getEmployees'])->name('getemployees');
-        Route::post('store-employee', [EmployeeController::class, 'store'])->name('storeemployee');
-        Route::post('update-employee', [EmployeeController::class, 'update'])->name('updateemployee');
-        Route::post('delete-employee', [EmployeeController::class, 'delete'])->name('deleteemployee');
-
         Route::get('user', [UserController::class, 'index'])->name('user');
         Route::get('get-users', [UserController::class, 'getUsers'])->name('getusers');
         Route::post('store-user', [UserController::class, 'store'])->name('storeuser');
         Route::post('update-user', [UserController::class, 'update'])->name('updateuser');
         Route::post('delete-user', [UserController::class, 'delete'])->name('deleteuser');
+        Route::get('users-excel-export', [UserController::class, 'userExcelExport'])->name('userexcelexport');
+
+        Route::get('employee', [EmployeeController::class, 'index'])->name('employee');
+        Route::get('get-employees', [EmployeeController::class, 'getEmployees'])->name('getemployees');
+        Route::post('store-employee', [EmployeeController::class, 'store'])->name('storeemployee');
+        Route::post('update-employee', [EmployeeController::class, 'update'])->name('updateemployee');
+        Route::post('delete-employee', [EmployeeController::class, 'delete'])->name('deleteemployee');
     });
 
     Route::prefix('transaction')->name('transaction.')->group(function(){
