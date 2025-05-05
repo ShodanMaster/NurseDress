@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
         Route::post('store-employee', [EmployeeController::class, 'store'])->name('storeemployee');
         Route::post('update-employee', [EmployeeController::class, 'update'])->name('updateemployee');
         Route::post('delete-employee', [EmployeeController::class, 'delete'])->name('deleteemployee');
+        Route::get('employees-excel-export', [EmployeeController::class, 'employeeExcelExport'])->name('employeeexcelexport');
     });
 
     Route::prefix('transaction')->name('transaction.')->group(function(){

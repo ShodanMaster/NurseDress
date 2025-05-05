@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Exports\EmployeesExport;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Exception;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 use function PHPSTORM_META\type;
@@ -147,5 +149,9 @@ class EmployeeController extends Controller
                 'message' => 'Something Went Wrong '. $e->getMessage(),
             ]);
         }
+    }
+    
+    public function employeeExcelExport(){
+        return Excel::download(new EmployeesExport, 'employees.xlsx');
     }
 }
