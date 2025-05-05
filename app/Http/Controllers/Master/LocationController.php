@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Exports\LocationsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Exception;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class LocationController extends Controller
@@ -114,6 +116,10 @@ class LocationController extends Controller
                 'message' => 'Something Went Wrong '. $e->getMessage(),
             ]);
         }
+    }
+
+    public function locationExcelExport(){
+        return Excel::download(new LocationsExport, 'locations.xlsx');
     }
 }
 

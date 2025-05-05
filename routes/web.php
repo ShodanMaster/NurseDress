@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::post('store-location', [LocationController::class, 'store'])->name('storelocation');
         Route::post('update-location', [LocationController::class, 'update'])->name('updatelocation');
         Route::post('delete-location', [LocationController::class, 'delete'])->name('deletelocation');
+        Route::get('locations-excel-export', [LocationController::class, 'locationExcelExport'])->name('locationexcelexport');
 
         Route::get('bin', [BinController::class, 'index'])->name('bin');
         Route::get('get-bins', [BinController::class, 'getBins'])->name('getbins');
