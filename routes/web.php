@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
         Route::post('store-design', [DesignController::class, 'store'])->name('storedesign');
         Route::post('update-design', [DesignController::class, 'update'])->name('updatedesign');
         Route::post('delete-design', [DesignController::class, 'delete'])->name('deletedesign');
+        Route::get('designs-excel-export', [DesignController::class, 'designExcelExport'])->name('designexcelexport');
 
         Route::get('location', [LocationController::class, 'index'])->name('location');
         Route::get('get-locations', [LocationController::class, 'getLocations'])->name('getlocations');

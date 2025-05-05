@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Exports\DesignsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Design;
 use Exception;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class DesignController extends Controller
@@ -114,5 +116,9 @@ class DesignController extends Controller
                 'message' => 'Something Went Wrong '. $e->getMessage(),
             ]);
         }
+    }
+
+    public function designExcelExport(){
+        return Excel::download(new DesignsExport, 'designs.xlsx');
     }
 }
