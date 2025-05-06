@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Master;
 
 use App\Exports\ColorsExport;
 use App\Http\Controllers\Controller;
+use App\Imports\ColorImport;
+use App\Imports\SizeImport;
 use App\Models\Color;
 use Exception;
 use Illuminate\Http\Request;
@@ -35,14 +37,25 @@ class ColorController extends Controller
     public function store(Request $request){
         try{
 
-            $request->validate([
-                'color' => 'required'
-            ]);
+            if($request->file()){
+                $request->validate([
+                    'excelColor' => 'required|mimes:xlsx,xls,csv|max:2048',
+                ]);
 
-            Color::create([
-                'name' => $request->color
-            ]);
+                // dd($request->file('excelSize')->getClientOriginalExtension());
 
+                Excel::import(new ColorImport, $request->file('excelColor'));
+            }
+            elseif($request->size){
+
+                $request->validate([
+                    'color' => 'required'
+                ]);
+
+                Color::create([
+                    'name' => $request->color
+                ]);
+            }
             return response()->json([
                 'status' => 200,
                 'message' => 'Color Stored Successfully'
