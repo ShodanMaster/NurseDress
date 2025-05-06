@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Exports\SizesExport;
 use App\Http\Controllers\Controller;
+use App\Imports\SizeImport;
 use App\Models\Size;
 use Exception;
 use Illuminate\Http\Request;
@@ -33,15 +34,28 @@ class SizeController extends Controller
     }
 
     public function store(Request $request){
+        // dd($request->all());
         try{
 
-            $request->validate([
-                'size' => 'required'
-            ]);
+            if($request->file()){
+                $request->validate([
+                    'excelSize' => 'required|mimes:xlsx,xls,csv|max:2048',
+                ]);
 
-            Size::create([
-                'name' => $request->size
-            ]);
+                // dd($request->file('excelSize')->getClientOriginalExtension());
+
+                Excel::import(new SizeImport, $request->file('excelSize'));
+            }
+            elseif($request->size){
+                $request->validate([
+                    'size' => 'required'
+                ]);
+
+                Size::create([
+                    'name' => $request->size
+                ]);
+            }
+
 
             return response()->json([
                 'status' => 200,
@@ -53,7 +67,7 @@ class SizeController extends Controller
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 $message = 'Duplicate entry found. Please ensure the data is unique.';
             } else {
-                $message = 'Something Went Wrong. Please try again later.';
+                $message = 'Something Went Wrong. Please try again later. '.$e->getMessage();
             }
 
             return response()->json([
