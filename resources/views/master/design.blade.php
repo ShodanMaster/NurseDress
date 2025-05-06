@@ -16,6 +16,24 @@
                     <label for="design" class="form-label">Design</label>
                     <input type="text" class="form-control" name="design" id="design" placeholder="Enter Design" required autofocus>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="excelDesign" class="form-label">Excel Upload</label>
+                            <input type="file" class="form-control" name="excelDesign" id="excelDesign" placeholder="Excel Upload">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="" class="form-label">Click Here.</label>
+                            {{-- <label class="form-label">Click to Download Excel Template</label><br> --}}
+                            <a href="{{asset('excelTemplates/designs_excel_template.xlsx')}}"><button type="button" class="btn btn-success">
+                                <i class="fas fa-file-excel mr-1"></i>Download Template
+                            </button></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -97,6 +115,21 @@
 
 @section('script')
 <script>
+
+    document.getElementById('excelDesign').addEventListener('change', function(){
+        const fileInput = this;
+        const sizeInput = document.getElementById('design');
+
+        if (fileInput.files.length > 0) {
+
+            sizeInput.value = '';
+            sizeInput.disabled = true;
+        } else {
+
+            sizeInput.disabled = false;
+        }
+    });
+
     $(document).ready( function () {
 
         var table = $('#designTable').DataTable({

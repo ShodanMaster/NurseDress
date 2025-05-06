@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Exports\DesignsExport;
 use App\Http\Controllers\Controller;
+use App\Imports\DesignImport;
 use App\Models\Design;
 use Exception;
 use Illuminate\Http\Request;
@@ -35,14 +36,25 @@ class DesignController extends Controller
     public function store(Request $request){
         try{
 
-            $request->validate([
-                'design' => 'required'
-            ]);
+            if($request->file()){
+                $request->validate([
+                    'excelDesign' => 'required|mimes:xlsx,xls,csv|max:2048',
+                ]);
 
-            Design::create([
-                'name' => $request->design
-            ]);
+                // dd($request->file('excelSize')->getClientOriginalExtension());
 
+                Excel::import(new DesignImport, $request->file('excelDesign'));
+            }
+            elseif($request->size){
+                $request->validate([
+                    'design' => 'required'
+                ]);
+
+                Design::create([
+                    'name' => $request->design
+                ]);
+
+            }
             return response()->json([
                 'status' => 200,
                 'message' => 'Design Stored Successfully'
