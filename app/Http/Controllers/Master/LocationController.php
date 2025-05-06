@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Exports\LocationsExport;
 use App\Http\Controllers\Controller;
+use App\Imports\LocationImport;
 use App\Models\Location;
 use Exception;
 use Illuminate\Http\Request;
@@ -34,14 +35,25 @@ class LocationController extends Controller
 
     public function store(Request $request){
         try{
+            if($request->file()){
+                $request->validate([
+                    'excelLocation' => 'required|mimes:xlsx,xls,csv|max:2048',
+                ]);
 
-            $request->validate([
-                'location' => 'required'
-            ]);
+                // dd($request->file('excelSize')->getClientOriginalExtension());
 
-            Location::create([
-                'name' => $request->location
-            ]);
+                Excel::import(new LocationImport, $request->file('excelLocation'));
+            }
+            elseif($request->size){
+
+                $request->validate([
+                    'location' => 'required'
+                ]);
+
+                Location::create([
+                    'name' => $request->location
+                ]);
+            }
 
             return response()->json([
                 'status' => 200,

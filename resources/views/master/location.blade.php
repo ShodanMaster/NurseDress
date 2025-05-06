@@ -14,7 +14,25 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="location" class="form-label">Location</label>
-                    <input type="text" class="form-control" name="location" id="location" placeholder="Enter location" required autofocus>
+                    <input type="text" class="form-control" name="location" id="location" placeholder="Enter location" autofocus>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="excelLocation" class="form-label">Excel Upload</label>
+                            <input type="file" class="form-control" name="excelLocation" id="excelLocation" placeholder="Excel Upload">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="" class="form-label">Click Here.</label>
+                            {{-- <label class="form-label">Click to Download Excel Template</label><br> --}}
+                            <a href="{{asset('excelTemplates/locations_excel_template.xlsx')}}"><button type="button" class="btn btn-success">
+                                <i class="fas fa-file-excel mr-1"></i>Download Template
+                            </button></a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -97,6 +115,20 @@
 
 @section('script')
 <script>
+    document.getElementById('excelLocation').addEventListener('change', function(){
+        const fileInput = this;
+        constLocationput = document.getElementById('location');
+
+        if (fileInput.files.length > 0) {
+
+            sizeInput.value = '';
+            sizeInput.disabled = true;
+        } else {
+
+            sizeInput.disabled = false;
+        }
+    });
+
     $(document).ready( function () {
 
         var table = $('#locationTable').DataTable({
