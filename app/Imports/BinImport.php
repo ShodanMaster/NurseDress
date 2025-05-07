@@ -17,7 +17,7 @@ class BinImport implements ToCollection, WithHeadingRow
     {
         foreach ($rows as $row) {
             // dd($row);
-            if (!empty($row['location']) || !empty($row['bin']) ){
+            if (!empty($row['location']) && !empty($row['bin']) ){
                 $location = Location::firstOrCreate([
                     'name' => $row['location']
                 ]);

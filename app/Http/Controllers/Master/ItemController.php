@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Exports\ItemsExport;
 use App\Http\Controllers\Controller;
+use App\Imports\ItemImport;
 use App\Models\Item;
 use App\Models\Size;
 use App\Models\Color;
@@ -59,27 +60,37 @@ class ItemController extends Controller
     public function store(Request $request){
         // dd($request->all());
         try{
+            if($request->file()){
+                $request->validate([
+                    'excelItem' => 'required|mimes:xlsx,xls,csv|max:2048',
+                ]);
 
-            $validated = $request->validate([
-                'size' => 'required|integer|exists:sizes,id',
-                'color' => 'required|integer|exists:colors,id',
-                'design' => 'required|integer|exists:designs,id',
-                'sex' => 'required|in:male,female',
-                'amount' => 'required|integer',
-                'box_quantity' => 'required|integer|max:100',
-                'item' => 'required|string|max:250',
-            ]);
+                // dd($request->file('excelSize')->getClientOriginalExtension());
 
-            Item::create([
-                'size_id' => $validated['size'],
-                'color_id' => $validated['color'],
-                'design_id' => $validated['design'],
-                'amount' => $validated['amount'],
-                'sex' => $validated['sex'],
-                'box_quantity' => $validated['box_quantity'],
-                'title' => $validated['item'],
-            ]);
+                Excel::import(new ItemImport, $request->file('excelItem'));
+            }
+            elseif($request->size){
 
+                $validated = $request->validate([
+                    'size' => 'required|integer|exists:sizes,id',
+                    'color' => 'required|integer|exists:colors,id',
+                    'design' => 'required|integer|exists:designs,id',
+                    'sex' => 'required|in:male,female',
+                    'amount' => 'required|integer',
+                    'box_quantity' => 'required|integer|max:100',
+                    'item' => 'required|string|max:250',
+                ]);
+
+                Item::create([
+                    'size_id' => $validated['size'],
+                    'color_id' => $validated['color'],
+                    'design_id' => $validated['design'],
+                    'amount' => $validated['amount'],
+                    'sex' => $validated['sex'],
+                    'box_quantity' => $validated['box_quantity'],
+                    'title' => $validated['item'],
+                ]);
+            }
             return response()->json([
                 'status' => 200,
                 'message' => 'Item Stored Successfully'
@@ -90,7 +101,7 @@ class ItemController extends Controller
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 $message = 'Duplicate entry found. Please ensure the data is unique.';
             } else {
-                $message = 'Something Went Wrong. Please try again later.'. $e->getMessage();
+                $message = 'Something Went Wrong. Please try again later. '. $e->getMessage();
             }
 
             return response()->json([

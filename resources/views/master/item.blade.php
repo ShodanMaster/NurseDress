@@ -83,6 +83,24 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="excelBin" class="form-label">Excel Upload</label>
+                            <input type="file" class="form-control" name="excelItem" id="excelItem" placeholder="Excel Upload">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="" class="form-label">Click Here.</label>
+                            {{-- <label class="form-label">Click to Download Excel Template</label><br> --}}
+                            <a href="{{asset('excelTemplates/items_excel_template.xlsx')}}"><button type="button" class="btn btn-success">
+                                <i class="fas fa-file-excel mr-1"></i>Download Template
+                            </button></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -238,6 +256,52 @@
 
 @section('script')
 <script>
+    document.getElementById('excelItem').addEventListener('change', function(){
+        const fileInput = this;
+
+        const sizeInput = document.getElementById('size');
+        const colorInput = document.getElementById('color');
+        const box_quantityInput = document.getElementById('box_quantity');
+        const designInput = document.getElementById('design');
+        const sexInput = document.getElementById('sex');
+        const itemInput = document.getElementById('item');
+        const amountInput = document.getElementById('amount');
+
+        if (fileInput.files.length > 0) {
+
+            sizeInput.value = '';
+            sizeInput.disabled = true;
+
+            colorInput.value = '';
+            colorInput.disabled = true;
+
+            box_quantityInput.value = '';
+            box_quantityInput.disabled = true;
+
+            designInput.value = '';
+            designInput.disabled = true;
+
+            sexInput.value = '';
+            sexInput.disabled = true;
+
+            itemInput.value = '';
+            itemInput.disabled = true;
+
+            amountInput.value = '';
+            amountInput.disabled = true;
+        } else {
+
+            sizeInput.disabled = false;
+            colorInput.disabled = false;
+            box_quantityInput.disabled = false;
+            designInput.disabled = false;
+            sexInput.disabled = false;
+            itemInput.disabled = false;
+            amountInput.disabled = false;
+
+        }
+    });
+
     $(document).ready( function () {
 
         var table = $('#itemTable').DataTable({
