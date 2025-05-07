@@ -26,6 +26,24 @@
                     <label for="bin" class="form-label">Bin</label>
                     <input type="text" class="form-control" name="bin" id="bin" placeholder="Enter bin" required autofocus>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="excelBin" class="form-label">Excel Upload</label>
+                            <input type="file" class="form-control" name="excelBin" id="excelBin" placeholder="Excel Upload">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="" class="form-label">Click Here.</label>
+                            {{-- <label class="form-label">Click to Download Excel Template</label><br> --}}
+                            <a href="{{asset('excelTemplates/bins_excel_template.xlsx')}}"><button type="button" class="btn btn-success">
+                                <i class="fas fa-file-excel mr-1"></i>Download Template
+                            </button></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -118,6 +136,25 @@
 
 @section('script')
 <script>
+    document.getElementById('excelBin').addEventListener('change', function(){
+        const fileInput = this;
+        const sizeInput = document.getElementById('bin');
+        const locationInput = document.getElementById('location_id');
+
+        if (fileInput.files.length > 0) {
+
+            sizeInput.value = '';
+            sizeInput.disabled = true;
+
+            locationInput.value = '';
+            locationInput.disabled = true;
+        } else {
+
+            sizeInput.disabled = false;
+            locationInput.disabled = false;
+        }
+    });
+
     $(document).ready( function () {
 
         var table = $('#binTable').DataTable({

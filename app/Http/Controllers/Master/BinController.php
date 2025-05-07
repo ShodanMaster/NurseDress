@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Exports\BinsExport;
 use App\Http\Controllers\Controller;
-
+use App\Imports\BinImport;
 use App\Models\Bin;
 use App\Models\Location;
 use Exception;
@@ -41,17 +41,28 @@ class BinController extends Controller
     public function store(Request $request){
         // dd($request->all());
         try{
+            if($request->file()){
+                $request->validate([
+                    'excelBin' => 'required|mimes:xlsx,xls,csv|max:2048',
+                ]);
 
-            $request->validate([
-                'location_id' => 'required|exists:locations,id',
-                'bin' => 'required|string|max:255',
-            ]);
+                // dd($request->file('excelSize')->getClientOriginalExtension());
 
-            Bin::create([
+                Excel::import(new BinImport, $request->file('excelBin'));
+            }
+            elseif($request->size){
 
-                'location_id' => $request->location_id,
-                'name' => $request->bin,
-            ]);
+                $request->validate([
+                    'location_id' => 'required|exists:locations,id',
+                    'bin' => 'required|string|max:255',
+                ]);
+
+                Bin::create([
+
+                    'location_id' => $request->location_id,
+                    'name' => $request->bin,
+                ]);
+            }
 
             return response()->json([
                 'status' => 200,
