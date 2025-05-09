@@ -171,11 +171,14 @@
 
                         // Reset form
                         $('#locationForm')[0].reset();
+                        $('#location').prop('disabled', false);
 
                         // Properly hide the Bootstrap modal
                         $('#addLocationModal').modal('hide');
 
                     } else {
+                        $('#location').prop('disabled', false);
+                        $('#excelLocation').val('');
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -184,6 +187,8 @@
                     }
                 },
                 error: function (xhr) {
+                    $('#location').prop('disabled', false);
+                    $('#excelLocation').val('');
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -193,7 +198,11 @@
 
             });
 
+        });
 
+        $('#addLocationModal').on('hidden.bs.modal', function () {
+            $('#locationForm')[0].reset();
+            $('#location').prop('disabled', false);
         });
 
         $('#editLocationModal').on('show.bs.modal', function (event) {

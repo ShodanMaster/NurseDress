@@ -170,11 +170,14 @@
 
                         // Reset form
                         $('#designForm')[0].reset();
+                        $('#design').prop('disabled', false);
 
                         // Properly hide the Bootstrap modal
                         $('#addDesignModal').modal('hide');
 
                     } else {
+                        $('#design').prop('disabled', false);
+                        $('#excelDesign').val('');
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -183,6 +186,8 @@
                     }
                 },
                 error: function (xhr) {
+                    $('#design').prop('disabled', false);
+                        $('#excelDesign').val('');
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -192,7 +197,11 @@
 
             });
 
+        });
 
+        $('#addDesignModal').on('hidden.bs.modal', function () {
+            $('#designForm')[0].reset();
+            $('#design').prop('disabled', false);
         });
 
         $('#editDesignModal').on('show.bs.modal', function (event) {

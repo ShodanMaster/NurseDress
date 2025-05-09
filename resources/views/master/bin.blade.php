@@ -194,11 +194,14 @@
 
                         // Reset form
                         $('#binForm')[0].reset();
+                        $('#bin').prop('disabled', false);
 
                         // Properly hide the Bootstrap modal
                         $('#addBinModal').modal('hide');
 
                     } else {
+                        $('#bin').prop('disabled', false);
+                        $('#excelBin').val('');
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -207,6 +210,8 @@
                     }
                 },
                 error: function (xhr) {
+                    $('#bin').prop('disabled', false);
+                        $('#excelBin').val('');
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -217,6 +222,11 @@
             });
 
 
+        });
+
+        $('#addBinModal').on('hidden.bs.modal', function () {
+            $('#binForm')[0].reset();
+            $('#bin').prop('disabled', false);
         });
 
         $('#editBinModal').on('show.bs.modal', function (event) {

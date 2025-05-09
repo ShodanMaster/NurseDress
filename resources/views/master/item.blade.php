@@ -348,11 +348,25 @@
 
                         // Reset form
                         $('#itemForm')[0].reset();
-
+                        $('#size').prop('disabled', false);
+                        $('#color').prop('disabled', false);
+                        $('#box_quantity').prop('disabled', false);
+                        $('#design').prop('disabled', false);
+                        $('#sex').prop('disabled', false);
+                        $('#item').prop('disabled', false);
+                        $('#amount').prop('disabled', false);
                         // Properly hide the Bootstrap modal
                         $('#addItemModal').modal('hide');
 
                     } else {
+                        $('#size').prop('disabled', false);
+                        $('#color').prop('disabled', false);
+                        $('#box_quantity').prop('disabled', false);
+                        $('#design').prop('disabled', false);
+                        $('#sex').prop('disabled', false);
+                        $('#item').prop('disabled', false);
+                        $('#amount').prop('disabled', false);
+                        $('#excelItem').val('');
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -361,6 +375,14 @@
                     }
                 },
                 error: function (xhr) {
+                    $('#size').prop('disabled', false);
+                    $('#color').prop('disabled', false);
+                    $('#box_quantity').prop('disabled', false);
+                    $('#design').prop('disabled', false);
+                    $('#sex').prop('disabled', false);
+                    $('#item').prop('disabled', false);
+                    $('#amount').prop('disabled', false);
+                    $('#excelItem').val('');
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -370,7 +392,17 @@
 
             });
 
+        });
 
+        $('#addItemModal').on('hidden.bs.modal', function () {
+            $('#itemForm')[0].reset();
+            $('#size').prop('disabled', false);
+            $('#color').prop('disabled', false);
+            $('#box_quantity').prop('disabled', false);
+            $('#design').prop('disabled', false);
+            $('#sex').prop('disabled', false);
+            $('#item').prop('disabled', false);
+            $('#amount').prop('disabled', false);
         });
 
         $('#editItemModal').on('show.bs.modal', function (event) {

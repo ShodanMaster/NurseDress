@@ -172,13 +172,15 @@
                             confirmButtonText: 'OK'
                         });
 
-                        // Reset form
                         $('#sizeForm')[0].reset();
+                        $('#size').prop('disabled', false);
+                        $('#excelSize').val('');
 
-                        // Properly hide the Bootstrap modal
                         $('#addSizeModal').modal('hide');
 
                     } else {
+                        $('#size').prop('disabled', false);
+                        $('#excelSize').val('');
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -187,6 +189,9 @@
                     }
                 },
                 error: function (xhr) {
+                    $('#size').prop('disabled', false);
+                    $('#excelSize').val('');
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -196,7 +201,11 @@
 
             });
 
+        });
 
+        $('#addSizeModal').on('hidden.bs.modal', function () {
+            $('#sizeForm')[0].reset();
+            $('#size').prop('disabled', false);
         });
 
         $('#editSizeModal').on('show.bs.modal', function (event) {

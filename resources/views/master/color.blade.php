@@ -170,11 +170,14 @@
 
                         // Reset form
                         $('#colorForm')[0].reset();
+                        $('#color').prop('disabled', false);
 
                         // Properly hide the Bootstrap modal
                         $('#addColorModal').modal('hide');
 
                     } else {
+                        $('#color').prop('disabled', false);
+                        $('#excelColor').val('');
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -183,6 +186,8 @@
                     }
                 },
                 error: function (xhr) {
+                    $('#color').prop('disabled', false);
+                    $('#excelColor').val('');
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -192,7 +197,11 @@
 
             });
 
+        });
 
+        $('#addColorModal').on('hidden.bs.modal', function () {
+            $('#colorForm')[0].reset();
+            $('#color').prop('disabled', false);
         });
 
         $('#editColorModal').on('show.bs.modal', function (event) {
