@@ -165,8 +165,9 @@
                             icon: 'success',
                             title: 'Success!',
                             text: response.message,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK'
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
                         });
 
                         // Reset form
@@ -183,6 +184,9 @@
                             icon: 'error',
                             title: 'Oops...',
                             text: response.message,
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
                         });
                     }
                 },
@@ -193,6 +197,9 @@
                         icon: 'error',
                         title: 'Error',
                         text: xhr.responseJSON.message || 'Something went wrong!',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
                     });
                 }
 
@@ -234,8 +241,9 @@
                             icon: 'success',
                             title: 'Success!',
                             text: response.message,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK'
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
                         });
                         $('#locationEditForm')[0].reset();
                         $('#editLocationModal').modal('hide');
@@ -290,7 +298,9 @@
                                 icon: 'success',
                                 title: 'Success!',
                                 text: response.message,
-                                confirmButtonText: 'OK'
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true
                             });
                         },
                         error: function(error) {

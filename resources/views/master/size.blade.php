@@ -168,8 +168,9 @@
                             icon: 'success',
                             title: 'Success!',
                             text: response.message,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK'
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
                         });
 
                         $('#sizeForm')[0].reset();
@@ -185,6 +186,9 @@
                             icon: 'error',
                             title: 'Oops...',
                             text: response.message,
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
                         });
                     }
                 },
@@ -237,8 +241,9 @@
                             icon: 'success',
                             title: 'Success!',
                             text: response.message,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK'
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
                         });
                         $('#sizeEditForm')[0].reset();
                         $('#editSizeModal').modal('hide');
@@ -293,7 +298,9 @@
                                 icon: 'success',
                                 title: 'Success!',
                                 text: response.message,
-                                confirmButtonText: 'OK'
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true
                             });
                         },
                         error: function(error) {

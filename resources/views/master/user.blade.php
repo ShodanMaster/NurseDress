@@ -237,8 +237,9 @@
                             icon: 'success',
                             title: 'Success!',
                             text: response.message,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK'
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
                         });
 
                         // Reset form
@@ -299,8 +300,9 @@
                             icon: 'success',
                             title: 'Success!',
                             text: response.message,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK'
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
                         });
                         $('#userEditForm')[0].reset();
                         $('#editUserModal').modal('hide');
@@ -355,7 +357,9 @@
                                 icon: 'success',
                                 title: 'Success!',
                                 text: response.message,
-                                confirmButtonText: 'OK'
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true
                             });
                         },
                         error: function(error) {
@@ -365,7 +369,7 @@
                 }
             });
         });
-        
+
         $(document).on('click', '#excelExport', function (e) {
             e.preventDefault();
 
