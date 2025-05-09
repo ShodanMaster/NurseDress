@@ -39,7 +39,6 @@ class ItemImport implements ToCollection, WithHeadingRow, WithValidation
         }
     }
 
-    // Validation rules for each row
     public function rules(): array
     {
         return [
@@ -53,7 +52,6 @@ class ItemImport implements ToCollection, WithHeadingRow, WithValidation
         ];
     }
 
-    // Custom validation messages for each field
     public function customValidationMessages()
     {
         return [
@@ -61,7 +59,6 @@ class ItemImport implements ToCollection, WithHeadingRow, WithValidation
             '*.sex.required' => 'Sex is required in row :attribute.',
             '*.sex.in' => 'Sex must be either Male or Female in row :attribute.',
             '*.amount.numeric' => 'Amount must be numeric in row :attribute.',
-            // Add more custom messages as needed
         ];
     }
 

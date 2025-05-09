@@ -34,9 +34,7 @@ class SizeController extends Controller
     }
 
     public function store(Request $request){
-        // dd($request->all());
         try{
-
             if($request->file()){
                 $request->validate([
                     'excelSize' => 'required|mimes:xlsx,xls,csv|max:2048',
@@ -47,6 +45,7 @@ class SizeController extends Controller
                 Excel::import(new SizeImport, $request->file('excelSize'));
             }
             elseif($request->size){
+
                 $request->validate([
                     'size' => 'required'
                 ]);
@@ -56,18 +55,16 @@ class SizeController extends Controller
                 ]);
             }
 
-
             return response()->json([
                 'status' => 200,
                 'message' => 'Size Stored Successfully'
             ], 200);
 
         }catch (Exception $e) {
-
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 $message = 'Duplicate entry found. Please ensure the data is unique.';
             } else {
-                $message = 'Something Went Wrong. Please try again later. '.$e->getMessage();
+                $message = 'Something Went Wrong. Please try again later.';
             }
 
             return response()->json([

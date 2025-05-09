@@ -22,4 +22,18 @@ class DesignImport implements ToCollection, WithHeadingRow
             }
         }
     }
+
+    public function rules(): array
+    {
+        return [
+            '*.name' => 'required|string|max:255',
+        ];
+    }
+
+    public function customValidationMessages()
+    {
+        return [
+            '*.name.required' => 'Design name is required in row :attribute.',
+        ];
+    }
 }

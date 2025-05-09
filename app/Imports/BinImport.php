@@ -29,4 +29,20 @@ class BinImport implements ToCollection, WithHeadingRow
             }
         }
     }
+
+    public function rules(): array
+    {
+        return [
+            '*.location' => 'required|string|max:255',
+            '*.bin' => 'required|string|max:255',
+        ];
+    }
+
+    public function customValidationMessages()
+    {
+        return [
+            '*.location.required' => 'Location is required in row :attribute.',
+            '*.bin.required' => 'bin is required in row :attribute.',
+        ];
+    }
 }
