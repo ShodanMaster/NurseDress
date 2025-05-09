@@ -29,7 +29,7 @@
                         <div class="form-group">
                             <label for="" class="form-label">Click Here.</label>
                             {{-- <label class="form-label">Click to Download Excel Template</label><br> --}}
-                            <a href="{{asset('excelTemplates/sizes_excel_template.xlsx')}}"><button type="button" class="btn btn-success">
+                            <a href="{{asset('excelTemplates/excel_template.xlsx')}}"><button type="button" class="btn btn-success">
                                 <i class="fas fa-file-excel mr-1"></i>Download Template
                             </button></a>
                         </div>

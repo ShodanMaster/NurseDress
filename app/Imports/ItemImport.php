@@ -64,5 +64,5 @@ class ItemImport implements ToCollection, WithHeadingRow, WithValidation
             // Add more custom messages as needed
         ];
     }
-    
+
 }
