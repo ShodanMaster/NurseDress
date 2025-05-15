@@ -50,7 +50,7 @@ class BinController extends Controller
 
                 Excel::import(new BinImport, $request->file('excelBin'));
             }
-            elseif($request->size){
+            elseif($request->bin){
 
                 $request->validate([
                     'location_id' => 'required|exists:locations,id',

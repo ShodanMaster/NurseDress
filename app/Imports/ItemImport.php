@@ -16,7 +16,7 @@ class ItemImport implements ToCollection, WithHeadingRow, WithValidation
      * @param Collection $collection
      */
     public function collection(Collection $rows)
-    {dd(12345);
+    {
         // Loop through each row and create the Item if valid
         foreach ($rows as $row) {
             if (!empty($row['title']) && !empty($row['sex']) && !empty($row['color']) &&

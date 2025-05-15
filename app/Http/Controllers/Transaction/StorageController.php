@@ -59,9 +59,9 @@ class StorageController extends Controller
                 $grnSub = GrnSub::where('grn_id', $barcode->grn_id)
                                 ->where('item_id', $barcode->item_id)
                                 ->get();
-
+dd($grnSub);
                 $qc = Qc::where('grn_id', $barcode->grn_id)
-                        ->where('item_id', $barcode->item_id)
+                        // ->where('item_id', $barcode->item_id)
                         ->get();
 
                 if (!$grnSub || !$qc) {
@@ -70,8 +70,10 @@ class StorageController extends Controller
                         'message' => 'GRN or QC data not found.'
                     ]);
                 }
-                
-                if ($grnSub->accepted_qty >= $qc->accepted_qty) {
+
+                $totalAcceptedQty = $qc->sum('accepted_qty');
+
+                if ($grnSub->accepted_qty >= $totalAcceptedQty) {
                     return response()->json([
                         'status' => 422,
                         'message' => 'The quantity exceeds the allowed limit.'

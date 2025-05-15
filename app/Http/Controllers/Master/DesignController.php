@@ -45,7 +45,7 @@ class DesignController extends Controller
 
                 Excel::import(new DesignImport, $request->file('excelDesign'));
             }
-            elseif($request->size){
+            elseif($request->design){
                 $request->validate([
                     'design' => 'required'
                 ]);

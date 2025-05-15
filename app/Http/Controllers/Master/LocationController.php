@@ -44,7 +44,7 @@ class LocationController extends Controller
 
                 Excel::import(new LocationImport, $request->file('excelLocation'));
             }
-            elseif($request->size){
+            elseif($request->location){
 
                 $request->validate([
                     'location' => 'required'

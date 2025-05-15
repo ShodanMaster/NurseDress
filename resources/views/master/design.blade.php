@@ -164,8 +164,9 @@
                             icon: 'success',
                             title: 'Success!',
                             text: response.message,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK'
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
                         });
 
                         // Reset form

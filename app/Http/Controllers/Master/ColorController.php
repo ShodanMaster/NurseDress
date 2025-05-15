@@ -36,7 +36,6 @@ class ColorController extends Controller
 
     public function store(Request $request){
         try{
-
             if($request->file()){
                 $request->validate([
                     'excelColor' => 'required|mimes:xlsx,xls,csv|max:2048',
@@ -46,7 +45,7 @@ class ColorController extends Controller
 
                 Excel::import(new ColorImport, $request->file('excelColor'));
             }
-            elseif($request->size){
+            elseif($request->color){
 
                 $request->validate([
                     'color' => 'required'
