@@ -58,11 +58,11 @@ class StorageController extends Controller
 
                 $grnSub = GrnSub::where('grn_id', $barcode->grn_id)
                                 ->where('item_id', $barcode->item_id)
-                                ->get();
-dd($grnSub);
+                                ->first();
+
                 $qc = Qc::where('grn_id', $barcode->grn_id)
-                        // ->where('item_id', $barcode->item_id)
-                        ->get();
+                    ->where('item_id', $barcode->item_id)
+                    ->first();
 
                 if (!$grnSub || !$qc) {
                     return response()->json([
@@ -71,9 +71,7 @@ dd($grnSub);
                     ]);
                 }
 
-                $totalAcceptedQty = $qc->sum('accepted_qty');
-
-                if ($grnSub->accepted_qty >= $totalAcceptedQty) {
+                if ($grnSub->accepted_qty >= $qc->accepted_qty) {
                     return response()->json([
                         'status' => 422,
                         'message' => 'The quantity exceeds the allowed limit.'
@@ -100,8 +98,9 @@ dd($grnSub);
                 $grnSub->accepted_qty += 1;
 
                 if($grnSub->accepted_qty == $qc->accepted_qty && $grnSub->rejected_qty == $qc->rejected_qty){
-                    Grn::where('id', $barcode->grn_id);
+                    Grn::where('id', $barcode->grn_id)->update(['status',1]);
                 }
+
                 $barcode->status = '1';
                 $barcode->qc_status = 1;
                 $barcode->save();
@@ -119,7 +118,6 @@ dd($grnSub);
 
         } catch (\Exception $e) {
             DB::rollBack();
-
             if ($request->ajax()) {
                 return response()->json([
                     'status' => 500,

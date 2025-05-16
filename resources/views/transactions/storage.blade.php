@@ -97,6 +97,9 @@
                         icon: 'success',
                         title: 'Scan Successful',
                         text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
                     }).then(() => {
                         $('#barcode').val('');
                     });
@@ -105,6 +108,9 @@
                         icon: 'error',
                         title: 'Invalid Barcode',
                         text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
                     }).then(() => {
                         $('#barcode').val('');
                     });
@@ -118,6 +124,9 @@
                     icon: 'error',
                     title: 'Error',
                     text: xhr.responseJSON?.message || 'Something went wrong!',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true
                 });
             }
         });
