@@ -74,7 +74,7 @@ class StorageController extends Controller
                 if ($grnSub->accepted_qty >= $qc->accepted_qty) {
                     return response()->json([
                         'status' => 422,
-                        'message' => 'The quantity exceeds the allowed limit.'
+                        'message' => 'The quantity exceeds the allowed limit or this item.'
                     ]);
                 }
 
