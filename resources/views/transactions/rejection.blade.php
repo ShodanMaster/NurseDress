@@ -11,7 +11,7 @@
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="grnNumber_id" class="form-label">grnNumber ID</label>
+                        <label for="grn_number" class="form-label">grnNumber ID</label>
                         <select class="form-control" name="grn_number" id="grn_number">
                             <option value="">Select GRN Number</option>
                             @foreach($grnNumbers as $grnNumber)
@@ -39,30 +39,9 @@
     </div>
 </section>
 <script>
-    const barcodeInput = document.getElementById("barcode");
-        barcodeInput.addEventListener("input", function() {
-
-            console.log(this.value);
-
-            $.ajax({
-                type: "POST",
-                url: "{{ route('transaction.qcstore') }}",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "barcode": this.value
-                },
-                dataType: "json",
-                success: function (response) {
-                    log(response);
-                }
-            });
-
-        });
 
     const binInput = document.getElementById("bin");
     binInput.addEventListener("input", function() {
-
-        console.log(this.value);
 
         $.ajax({
             type: "GET",
@@ -73,7 +52,6 @@
             },
             dataType: "json",
             success: function (response) {
-                console.log(response);
                 if(response.status == 200){
                     $('#bin').attr('readonly', true);
                 }else{
@@ -96,6 +74,62 @@
         binInput.removeAttribute('readonly');
         binInput.value = '';
     });
+
+    const barcodeInput = document.getElementById("barcode");
+    barcodeInput.addEventListener("input", function () {
+        $.ajax({
+            type: "POST",
+            url: "{{ route('transaction.rejectionscan') }}",
+            data: {
+                _token: "{{ csrf_token() }}",
+                barcode: this.value,
+                bin: document.getElementById('bin').value,
+                grn_number: document.getElementById('grn_number').value,
+            },
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+
+                if (response.status == 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Scan Successful',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                    }).then(() => {
+                        $('#barcode').val('');
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Barcode',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                    }).then(() => {
+                        $('#barcode').val('');
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+
+                $('#barcode').val('');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: xhr.responseJSON?.message || 'Something went wrong!',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true
+                });
+            }
+        });
+    });
+
 
 </script>
 @endsection

@@ -97,9 +97,9 @@ class StorageController extends Controller
 
                 $grnSub->accepted_qty += 1;
 
-                if($grnSub->accepted_qty == $qc->accepted_qty && $grnSub->rejected_qty == $qc->rejected_qty){
-                    Grn::where('id', $barcode->grn_id)->update(['status',1]);
-                }
+                // if($grnSub->accepted_qty == $qc->accepted_qty && $grnSub->rejected_qty == $qc->rejected_qty){
+                //     Grn::where('id', $barcode->grn_id)->update(['status',1]);
+                // }
 
                 $barcode->status = '1';
                 $barcode->qc_status = 1;

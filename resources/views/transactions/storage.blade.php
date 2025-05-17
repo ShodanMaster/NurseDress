@@ -8,7 +8,6 @@
                 <h3 class="card-title">Storage Scan</h3>
             </div>
             <form>
-            {{-- <form action="{{route('transaction.storagescan')}}" method="POST"> --}}
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
@@ -34,7 +33,6 @@
                         <label for="barcode" class="form-label">Barcode</label>
                         <input type="text" class="form-control" name="barcode" id="barcode" placeholder="Enter Barcode" required autofocus>
                     </div>
-                    {{-- <button>submit</button> --}}
                 </div>
             </form>
         </div>
