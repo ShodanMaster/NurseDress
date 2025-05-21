@@ -23,7 +23,7 @@ class LoginController extends Controller
         return redirect()->back()->with('warning', 'Wrong Credentials');
     }
 
-    public function logout()
+    public function loggingOut()
     {
         Auth::logout();
         return redirect()->route('login')->with('success', 'Logged out successfully.');

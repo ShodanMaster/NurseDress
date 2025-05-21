@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('item_id')->constrained('items');
             $table->integer('scanned_quantity')->default(1);
             $table->timestamp('scanned_time')->useCurrent();
+            $table->integer('status')->default(0);
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
