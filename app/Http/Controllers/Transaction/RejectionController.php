@@ -10,6 +10,7 @@ use App\Models\Grn;
 use App\Models\GrnSub;
 use App\Models\Qc;
 use App\Models\RejectionScan;
+use App\Models\StorageScan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,6 +58,10 @@ class RejectionController extends Controller
                     ]);
                 }
 
+                if($barcode->status == '1'){
+                    return $this->storaged($barcode, $validated);
+                }
+
                 $grnSub = GrnSub::where('grn_id', $barcode->grn_id)
                                 ->where('item_id', $barcode->item_id)
                                 ->first();
@@ -101,7 +106,7 @@ class RejectionController extends Controller
                 if($grnSub->rejected_quantity == $qc->rejected_quantity && $grnSub->accepted_quantity == $qc->accepted_quantity){
                     Grn::where('id', $barcode->grn_id)->update(['status' => 1]);
                 }
-                
+
                 $barcode->status = '3';
                 $barcode->qc_status = 1;
                 $barcode->save();
@@ -128,6 +133,65 @@ class RejectionController extends Controller
             } else {
                 return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
             }
+        }
+    }
+
+    protected function storaged($barcode ,$validated){
+        // dd($barcode);
+        try{
+
+            $grnSub = GrnSub::where('grn_id', $barcode->grn_id)
+                ->where('item_id', $barcode->item_id)
+                ->first();
+
+            $qc = Qc::where('grn_id', $barcode->grn_id)
+                        ->where('item_id', $barcode->item_id)
+                        ->first();
+
+            $bin = Bin::where('name', $validated['bin'])->first();
+
+            if (!$bin) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Bin not found.'
+                ]);
+            }
+
+            $barcode->status = '3';
+
+            $rejectionScan = new RejectionScan();
+            $rejectionScan->barcode = $validated['barcode'];
+            $rejectionScan->grn_id = $validated['grn_number'];
+            $rejectionScan->bin_id = $bin->id;
+            $rejectionScan->item_id = $barcode->item_id;
+            $rejectionScan->scanned_quantity = 1;
+            $rejectionScan->status = 1;
+            $rejectionScan->user_id = Auth::id();
+
+            $grnSub->accepted_quantity -= 1;
+            $grnSub->rejected_quantity += 1;
+
+            $qc->accepted_quantity -= 1;
+            $qc->rejected_quantity += 1;
+
+            $barcode->save();
+            $rejectionScan->save();
+            $grnSub->save();
+            $qc->save();
+
+            DB::commit();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Rejected Successful',
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 500,
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 

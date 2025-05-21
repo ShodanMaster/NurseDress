@@ -34,9 +34,9 @@ class RejectionScanRequest extends FormRequest
                         $fail("Barcode '{$barcode->barcode}' does not belong to this GRN Number.");
                     }
 
-                    if ($barcode && $barcode->status == '1') {
-                        $fail("Barcode '{$barcode->barcode}' Already scanned.");
-                    }
+                    // if ($barcode && $barcode->status == '1') {
+                    //     $fail("Barcode '{$barcode->barcode}' Already scanned.");
+                    // }
                     elseif($barcode->status == 2){
                         $fail("Barcode '{$barcode->barcode}' Already Dispatched.");
                     }
