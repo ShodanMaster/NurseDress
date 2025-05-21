@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('grn_id')->constrained('grns')->cascadeOnDelete();
             $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
             $table->integer('quantity');
-            $table->integer('accepted_qty')->default(0);
-            $table->integer('rejected_qty')->default(0);
-            $table->integer('pending_qty')->default(null);
+            $table->integer('accepted_quantity')->default(0);
+            $table->integer('rejected_quantity')->default(0);
+            $table->integer('pending_quantity')->default(null);
             $table->integer('status')->default(0);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();

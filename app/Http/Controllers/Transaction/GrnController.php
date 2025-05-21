@@ -159,8 +159,8 @@ class GrnController extends Controller
                 $grnSub->item_id = $item['item_id'];
                 $grnSub->quantity = $item['quantity'];
                 $grnSub->barcodes = $item['barcodes'];
-                $grnSub->accepted_qty = 0;
-                $grnSub->rejected_qty = 0;
+                $grnSub->accepted_quantity = 0;
+                $grnSub->rejected_quantity = 0;
                 $grnSub->status = 0;
                 $grnSub->user_id = Auth::id();
 

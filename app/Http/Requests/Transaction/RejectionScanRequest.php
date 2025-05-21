@@ -29,7 +29,6 @@ class RejectionScanRequest extends FormRequest
                 Rule::exists('barcodes', 'barcode'),
                 function ($attribute, $value, $fail) {
                     $barcode = DB::table('barcodes')->where('barcode', $value)->first();
-
                     $grn = $this->input('grn_number');
                     if($barcode->grn_id != $grn){
                         $fail("Barcode '{$barcode->barcode}' does not belong to this GRN Number.");

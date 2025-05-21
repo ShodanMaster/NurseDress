@@ -71,7 +71,7 @@ class StorageController extends Controller
                     ]);
                 }
 
-                if ($grnSub->accepted_qty >= $qc->accepted_qty) {
+                if ($grnSub->accepted_quantity >= $qc->accepted_quantity) {
                     return response()->json([
                         'status' => 422,
                         'message' => 'The quantity exceeds the allowed limit or this item.'
@@ -95,10 +95,10 @@ class StorageController extends Controller
                 $storageScan->scanned_quantity = 1;
                 $storageScan->user_id = Auth::id();
 
-                $grnSub->accepted_qty += 1;
+                $grnSub->accepted_quantity += 1;
 
-                // if($grnSub->accepted_qty == $qc->accepted_qty && $grnSub->rejected_qty == $qc->rejected_qty){
-                //     Grn::where('id', $barcode->grn_id)->update(['status',1]);
+                // if($grnSub->accepted_quantity == $qc->accepted_quantity && $grnSub->rejected_quantity == $qc->rejected_quantity){
+                //     Grn::where('id', $barcode->grn_id)->update(['status' => 1]);
                 // }
 
                 $barcode->status = '1';

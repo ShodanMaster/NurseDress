@@ -72,7 +72,7 @@ class RejectionController extends Controller
                     ]);
                 }
 
-                if ($grnSub->rejected_qty >= $qc->rejected_qty) {
+                if ($grnSub->rejected_quantity >= $qc->rejected_quantity) {
                     return response()->json([
                         'status' => 422,
                         'message' => 'The quantity exceeds the allowed limit or this item.'
@@ -96,12 +96,12 @@ class RejectionController extends Controller
                 $rejectionScan->scanned_quantity = 1;
                 $rejectionScan->user_id = Auth::id();
 
-                $grnSub->rejected_qty += 1;
+                $grnSub->rejected_quantity += 1;
 
-                // if($grnSub->rejected_qty == $qc->rejected_qty && $grnSub->accepted_qty == $qc->accepted_qty){
-                //     Grn::where('id', $barcode->grn_id)->update(['status',1]);
-                // }
-
+                if($grnSub->rejected_quantity == $qc->rejected_quantity && $grnSub->accepted_quantity == $qc->accepted_quantity){
+                    Grn::where('id', $barcode->grn_id)->update(['status' => 1]);
+                }
+                
                 $barcode->status = '3';
                 $barcode->qc_status = 1;
                 $barcode->save();

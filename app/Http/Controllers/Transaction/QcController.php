@@ -38,10 +38,10 @@ class QcController extends Controller
                 'qcs' => 'qcs',
                 'grn_subs' => $grn->qcs->map(function ($qc) {
                     $quantity = $qc->quantity;
-                    $pending = $qc->pending_qty;
+                    $pending = $qc->pending_quantity;
 
                     if (!is_null($pending)) {
-                        $quantity -= $qc->accepted_qty + $qc->rejected_qty;
+                        $quantity -= $qc->accepted_quantity + $qc->rejected_quantity;
                     }
 
                     return [
@@ -59,7 +59,7 @@ class QcController extends Controller
                     $pending = $sub->pending;
 
                     if (!is_null($pending)) {
-                        $quantity -= $sub->accepted_qty + $sub->rejected_qty;
+                        $quantity -= $sub->accepted_quantity + $sub->rejected_quantity;
                     }
 
                     return [
@@ -107,11 +107,11 @@ class QcController extends Controller
                     $sub->quantity = $item['quantity'];
                 }
 
-                $sub->accepted_qty = ($sub->accepted_qty ?? 0) + $item['accepted'];
-                $sub->rejected_qty = ($sub->rejected_qty ?? 0) + $item['rejected'];
+                $sub->accepted_quantity = ($sub->accepted_quantity ?? 0) + $item['accepted'];
+                $sub->rejected_quantity = ($sub->rejected_quantity ?? 0) + $item['rejected'];
 
-                $pending = $sub->quantity - ($sub->accepted_qty + $sub->rejected_qty);
-                $sub->pending_qty = max(0, $pending);
+                $pending = $sub->quantity - ($sub->accepted_quantity + $sub->rejected_quantity);
+                $sub->pending_quantity = max(0, $pending);
 
                 $sub->user_id = Auth::id();
 
@@ -119,7 +119,7 @@ class QcController extends Controller
             }
 
 
-            $totalPending = $grn->qcs()->sum('pending_qty');
+            $totalPending = $grn->qcs()->sum('pending_quantity');
 
             if ($totalPending == 0) {
                 $grn->qc_status = 1;

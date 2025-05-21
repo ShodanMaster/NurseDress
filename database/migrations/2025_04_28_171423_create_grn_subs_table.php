@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
             $table->integer('quantity');
             $table->string('barcodes');
-            $table->integer('accepted_qty')->default(0);
-            $table->integer('rejected_qty')->default(0);
-            $table->integer('pending_qty')->nullable();
+            $table->integer('accepted_quantity')->default(0);
+            $table->integer('rejected_quantity')->default(0);
+            $table->integer('pending_quantity')->nullable();
             $table->integer('status')->default(0);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
