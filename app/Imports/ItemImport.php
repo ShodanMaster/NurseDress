@@ -43,7 +43,7 @@ class ItemImport implements ToCollection, WithHeadingRow, WithValidation
     {
         return [
             '*.title' => 'required|string|max:255',
-            '*.sex' => 'required|in:Male,Female',
+            '*.sex' => 'required|in:male,female',
             '*.color' => 'required|string|max:50',
             '*.size' => 'required|string|max:50',
             '*.design' => 'required|string|max:50',
