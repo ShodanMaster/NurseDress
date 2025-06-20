@@ -18,7 +18,7 @@ class StorageController extends Controller
 
 
     public function index(){
-        $grnNumbers = Grn::where('status', '!=', 1)->where('qc_status', 1)->get();
+        $grnNumbers = Grn::where('status', 0)->where('qc_status', 1)->get();
         return view('transactions.storage',compact('grnNumbers'));
     }
 

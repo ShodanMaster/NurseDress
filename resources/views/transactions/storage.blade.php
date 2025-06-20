@@ -36,6 +36,25 @@
                 </div>
             </form>
         </div>
+
+        <div class="card mt-2" style="display:none" id="barcodesCard">
+            <div class="card-header">
+                <h3 class="card-title">Scanned Bracodes</h3>
+            </div>
+            <div class="card-body table-responsive" style="max-height: 250px; overflow-y: auto;" id="barcodeTableWrapper">
+                <table class="table table-border" id="barcodeTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Barcode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </section>
 <script>
@@ -91,16 +110,36 @@
                 console.log(response);
 
                 if (response.status == 200) {
+                    const barcodeValue = $('#barcode').val();
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Scan Successful',
                         text: response.message,
                         showConfirmButton: false,
-                        timer: 2000,
+                        timer: 1000,
                         timerProgressBar: true
-                    }).then(() => {
-                        $('#barcode').val('');
                     });
+
+                    $('#barcode').val('');
+
+                    if ($('#barcodesCard').is(':hidden')) {
+                        $('#barcodesCard').show();
+                    }
+
+                    const rowCount = $('#barcodeTable tbody tr').length + 1;
+                    const newRow = `
+                        <tr>
+                            <td>${rowCount}</td>
+                            <td>${barcodeValue}</td>
+                        </tr>
+                    `;
+                    $('#barcodeTable tbody').prepend(newRow);
+
+                    $('#barcodeTable tbody tr').each(function(index) {
+                        $(this).find('td:first').text(index + 1);
+                    });
+
                 } else {
                     Swal.fire({
                         icon: 'error',
